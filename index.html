@@ -1412,22 +1412,26 @@
     }
 
     function initAudio() {
-      if (!state.sound) return;
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (!state.sound) return null;
+      const AudioEngine = window.AudioContext || window.webkitAudioContext;
+      if (!AudioEngine) return null;
+      if (!audioCtx) audioCtx = new AudioEngine();
+      if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+      return audioCtx;
     }
 
     function tone(kind) {
       if (!state.sound) return;
-      initAudio();
-      if (!audioCtx) return;
+      const engine = initAudio();
+      if (!engine) return;
       const now = audioCtx.currentTime;
-      const notes = kind === "ok" ? [523, 659, 784, 1047] : kind === "hint" ? [392, 440] : [160, 90];
+      const notes = kind === "ok" ? [523, 659, 784, 1047] : kind === "hint" ? [392, 440] : kind === "tap" ? [440, 554] : [160, 90];
       notes.forEach((freq, i) => {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = kind === "bad" ? "sawtooth" : "triangle";
         osc.frequency.setValueAtTime(freq, now + i * 0.07);
-        gain.gain.setValueAtTime(kind === "bad" ? 0.055 : 0.04, now + i * 0.07);
+        gain.gain.setValueAtTime(kind === "bad" ? 0.07 : 0.06, now + i * 0.07);
         gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.22);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
@@ -1850,9 +1854,11 @@
 
     function startChallenge() {
       if (els.startDifficulty && els.difficultySelect) els.difficultySelect.value = els.startDifficulty.value;
+      initAudio();
       els.startScreen.classList.add("hidden");
       els.app.classList.remove("hidden");
       restart(true);
+      tone("tap");
     }
 
     function returnHome() {
@@ -1970,6 +1976,9 @@
     els.sound.addEventListener("click", () => {
       state.sound = !state.sound;
       els.sound.textContent = state.sound ? "♪" : "×";
+      els.sound.title = state.sound ? "소리 켜짐" : "소리 꺼짐";
+      els.sound.setAttribute("aria-label", els.sound.title);
+      if (state.sound) tone("tap");
       showToast(state.sound ? "소리를 켰습니다." : "소리를 껐습니다.");
     });
     els.teacherSwitch.addEventListener("click", () => {
