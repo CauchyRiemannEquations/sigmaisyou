@@ -73,6 +73,75 @@
       padding: 18px 0 28px;
     }
 
+    .hidden { display: none !important; }
+
+    .start-screen {
+      min-height: 100dvh;
+      width: min(920px, calc(100vw - 28px));
+      margin: 0 auto;
+      display: grid;
+      place-items: center;
+      padding: 34px 0;
+    }
+
+    .start-card {
+      width: 100%;
+      display: grid;
+      justify-items: center;
+      gap: 18px;
+      padding: clamp(24px, 5vw, 52px);
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(21, 32, 51, 0.1);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      text-align: center;
+    }
+
+    .start-mark {
+      width: 72px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      border: 3px solid var(--cyan);
+      background: #ffffff;
+      color: var(--cyan);
+      font-family: Georgia, serif;
+      font-size: 48px;
+      box-shadow: 0 12px 28px rgba(6, 127, 149, 0.16);
+      transform: rotate(-2deg);
+    }
+
+    .start-card h2 {
+      margin: 0;
+      font-size: clamp(38px, 7vw, 74px);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .start-panel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .start-select {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--text);
+      font-weight: 900;
+      padding: 0 12px;
+    }
+
+    .start-btn {
+      min-width: 180px;
+      min-height: 50px;
+      font-size: 16px;
+    }
+
     .topbar {
       display: flex;
       justify-content: space-between;
@@ -526,34 +595,6 @@
     .lesson-card + .lesson-card { margin-top: 9px; }
     .lesson-card strong { color: var(--text); }
 
-    .ranking {
-      display: grid;
-      gap: 7px;
-    }
-
-    .rank-row {
-      display: grid;
-      grid-template-columns: 28px 1fr auto;
-      gap: 8px;
-      align-items: center;
-      padding: 8px 9px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: var(--radius);
-      font-size: 12px;
-    }
-
-    .rank-row .name {
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      color: var(--text);
-      font-weight: 800;
-    }
-
-    .rank-row .score { color: var(--yellow); font-family: Consolas, monospace; }
-
     .teacher-toggle {
       display: flex;
       align-items: center;
@@ -652,18 +693,31 @@
       margin: 0 0 16px;
     }
 
-    .name-input {
-      width: 100%;
-      height: 46px;
-      margin-bottom: 10px;
-      padding: 0 12px;
-      color: var(--text);
-      background: #05070b;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      text-align: center;
-      font-weight: 800;
+    .end-badge {
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      margin-bottom: 8px;
     }
+
+    .end-actions {
+      display: grid;
+      gap: 9px;
+    }
+
+    .home-btn {
+      min-height: 36px;
+      padding: 0 10px;
+      justify-self: center;
+      color: var(--muted);
+      background: transparent;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .home-btn:hover { color: var(--text); }
 
     .shake { animation: shake 300ms ease; }
     .pulse { animation: pulse 650ms ease; }
@@ -710,6 +764,8 @@
     }
 
     @media (max-width: 720px) {
+      .start-screen { align-items: start; padding-top: 20px; }
+      .start-card { min-height: calc(100dvh - 40px); align-content: center; }
       .topbar { align-items: flex-start; flex-direction: column; }
       .brand-mark { width: 38px; height: 38px; font-size: 26px; }
       h1 { font-size: 30px; }
@@ -739,7 +795,25 @@
 </head>
 <body>
   <canvas id="fx"></canvas>
-  <div class="app" id="app">
+  <section class="start-screen" id="start-screen" aria-label="시작 화면">
+    <div class="start-card">
+      <div class="start-mark">∑</div>
+      <h2>SIGMA IS YOU</h2>
+      <div class="start-panel">
+        <label class="chip">난이도
+          <select id="start-difficulty" class="start-select" aria-label="시작 난이도 선택">
+            <option value="mixed">랜덤</option>
+            <option value="easy">쉬움</option>
+            <option value="medium">보통</option>
+            <option value="hard">어려움</option>
+          </select>
+        </label>
+        <button class="primary-btn start-btn" type="button" id="start-btn">챌린지 시작</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="app hidden" id="app">
     <header class="topbar">
       <div class="brand">
         <div class="brand-mark">∑</div>
@@ -857,14 +931,6 @@
           </div>
           <div class="teacher-notes" id="teacher-notes"></div>
         </section>
-
-        <section class="side-panel">
-          <div class="side-title">
-            <h2>랭킹</h2>
-            <span class="label">LOCAL</span>
-          </div>
-          <div class="ranking" id="ranking"></div>
-        </section>
       </aside>
     </main>
   </div>
@@ -873,10 +939,13 @@
 
   <section class="modal" id="finish-modal" aria-label="완료 화면">
     <div class="modal-card">
-      <h2>ALL COMPLETED!</h2>
-      <p id="finish-summary">모든 시그마 규칙을 정복했습니다.</p>
-      <input class="name-input" id="player-name" type="text" maxlength="12" placeholder="이름 입력" />
-      <button class="primary-btn" type="button" id="save-score-btn">랭킹 등록</button>
+      <div class="end-badge">Challenge Clear</div>
+      <h2>당신은 시그마 마스터!</h2>
+      <p id="finish-summary">20개의 시그마 규칙을 모두 정복했습니다.</p>
+      <div class="end-actions">
+        <button class="primary-btn" type="button" id="retry-btn">다시 도전</button>
+        <button class="home-btn" type="button" id="home-btn">메인 화면으로</button>
+      </div>
     </div>
   </section>
 
@@ -916,162 +985,341 @@
     function sixChoices(correct, distractors) {
       const set = new Set([String(correct)]);
       shuffle(distractors.map(String)).forEach(v => { if (set.size < 6) set.add(v); });
-      return shuffle(Array.from(set)).slice(0, 6);
+      return normalizeChoices(set);
     }
 
     function choicePool(required, distractors) {
       const set = new Set(required.map(String));
       shuffle(distractors.map(String)).forEach(v => { if (set.size < 6) set.add(v); });
+      return normalizeChoices(set);
+    }
+
+    function normalizeChoices(set) {
+      const fallback = [
+        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
+        "13", "14", "15", "16", "18", "20", "21", "24", "25", "28", "30",
+        "36", "42", "45", "55", "64", "78", "84", "91", "100", "120",
+        "144", "169", "196", "225", "256", "285", "385", "441", "k",
+        "2k", "3k", "k²", "k³", "k-1", "2k-1", "k=0", "k=1", "k=2",
+        "k=3", "k=4", "k=5"
+      ];
+      shuffle(fallback).forEach(v => { if (set.size < 6) set.add(v); });
       return shuffle(Array.from(set)).slice(0, 6);
     }
 
-    function easyStage() {
-      const mode = pick(["upper_k", "term_const", "result_k"]);
-      if (mode === "upper_k") {
+    function makeStage(config) {
+      return {
+        teacher: "",
+        hint: "빈칸을 채운 뒤 실제로 더해지는 항을 확인해 보세요.",
+        ...config
+      };
+    }
+
+    const easyGenerators = [
+      () => {
         const n = randInt(4, 14);
         const result = sigmaSum(1, n, "k");
-        return {
+        return makeStage({
           target: result, level: "EASY", concept: "등차합",
           desc: "상한을 찾아 식을 완성하세요.",
           slots: { upper: null, lower: "k=1", term: "k", result: String(result) },
           pool: sixChoices(n, [n - 2, n - 1, n + 1, n + 2, result, result - n]),
           answer: { upper: String(n) },
           hint: "1부터 n까지의 합을 떠올려 보세요.",
-          proof: `1부터 ${n}까지의 합은 ${result}입니다.`,
-          teacher: ""
-        };
-      }
-      if (mode === "term_const") {
+          proof: `1부터 ${n}까지의 합은 ${result}입니다.`
+        });
+      },
+      () => {
         const upper = randInt(6, 12);
         const c = randInt(2, 5);
         const result = upper * c;
-        return {
+        return makeStage({
           target: result, level: "EASY", concept: "상수항",
           desc: "일반항을 골라 식을 완성하세요.",
           slots: { upper: String(upper), lower: "k=1", term: null, result: String(result) },
           pool: choicePool([String(c)], ["1", "2", "3", "4", "5", "k", "2k"]),
           answer: { term: String(c) },
           hint: `같은 수를 ${upper}번 더하는 형태입니다.`,
-          proof: `${c}를 ${upper}번 더하면 ${result}입니다.`,
-          teacher: ""
-        };
+          proof: `${c}를 ${upper}번 더하면 ${result}입니다.`
+        });
+      },
+      () => {
+        const upper = randInt(5, 10);
+        const c = randInt(2, 5);
+        const result = sigmaSum(2, upper, String(c));
+        return makeStage({
+          target: result, level: "EASY", concept: "반복합",
+          desc: "결과 값을 채우세요.",
+          slots: { upper: String(upper), lower: "k=2", term: String(c), result: null },
+          pool: sixChoices(result, [result - c, result + c, upper + c, upper * upper, result + upper]),
+          answer: { result: String(result) },
+          hint: `${c}가 ${upper - 1}번 반복됩니다.`,
+          proof: `${c}를 ${upper - 1}번 더하면 ${result}입니다.`
+        });
+      },
+      () => {
+        const n = randInt(5, 10);
+        const result = sigmaSum(1, n, "2k-1");
+        return makeStage({
+          target: result, level: "EASY", concept: "홀수합",
+          desc: "상한을 채워 홀수합을 완성하세요.",
+          slots: { upper: null, lower: "k=1", term: "2k-1", result: String(result) },
+          pool: sixChoices(n, [n - 2, n - 1, n + 1, n + 2, result, n * n + 1]),
+          answer: { upper: String(n) },
+          hint: "처음 n개 홀수의 합은 n²입니다.",
+          proof: `처음 ${n}개 홀수의 합은 ${result}입니다.`
+        });
+      },
+      () => {
+        const n = randInt(5, 11);
+        const result = sigmaSum(1, n, "k-1");
+        return makeStage({
+          target: result, level: "EASY", concept: "인덱스 이동",
+          desc: "일반항을 골라 식을 완성하세요.",
+          slots: { upper: String(n), lower: "k=1", term: null, result: String(result) },
+          pool: choicePool(["k-1"], ["k", "2k", "3k", "2k-1", "k²"]),
+          answer: { term: "k-1" },
+          hint: "0부터 시작하는 항의 합입니다.",
+          proof: `0부터 ${n - 1}까지 더하면 ${result}입니다.`
+        });
+      },
+      () => {
+        const n = randInt(4, 8);
+        const result = sigmaSum(1, n, "3k");
+        return makeStage({
+          target: result, level: "EASY", concept: "선형항",
+          desc: "결과 값을 채우세요.",
+          slots: { upper: String(n), lower: "k=1", term: "3k", result: null },
+          pool: sixChoices(result, [result / 3, result - 3 * n, result + 3 * n, n * n, result + n]),
+          answer: { result: String(result) },
+          hint: "3을 합 밖으로 빼서 생각할 수 있습니다.",
+          proof: `∑3k (k=1..${n}) = ${result}입니다.`
+        });
+      },
+      () => {
+        const a = randInt(2, 4);
+        const b = a + randInt(3, 5);
+        const c = randInt(2, 4);
+        const result = sigmaSum(a, b, String(c));
+        return makeStage({
+          target: result, level: "EASY", concept: "하한과 상한",
+          desc: "하한을 채워 반복 횟수를 맞추세요.",
+          slots: { upper: String(b), lower: null, term: String(c), result: String(result) },
+          pool: sixChoices(`k=${a}`, [`k=${a - 1}`, `k=${a + 1}`, "k=1", "k=0", String(result), `k=${b}`]),
+          answer: { lower: `k=${a}` },
+          hint: "더해지는 항의 개수를 먼저 세어 보세요.",
+          proof: `${c}가 ${b - a + 1}번 더해져 ${result}입니다.`
+        });
       }
-      const n = randInt(5, 14);
-      const result = sigmaSum(1, n, "k");
-      return {
-        target: result, level: "EASY", concept: "자연수합",
-        desc: "결과 값을 채우세요.",
-        slots: { upper: String(n), lower: "k=1", term: "k", result: null },
-        pool: sixChoices(result, [result - n, result + n, n * n, n * (n + 1), result + 1]),
-        answer: { result: String(result) },
-        hint: "직접 더하거나 공식을 써도 됩니다.",
-        proof: `1부터 ${n}까지 합은 ${result}입니다.`,
-        teacher: ""
-      };
-    }
+    ];
 
-    function mediumStage() {
-      const mode = pick(["result_2k", "term_odd", "double_blank_sq", "lower_shift"]);
-      if (mode === "result_2k") {
+    const mediumGenerators = [
+      () => {
         const n = randInt(5, 10);
         const result = sigmaSum(1, n, "2k");
-        return {
+        return makeStage({
           target: result, level: "MEDIUM", concept: "선형항",
           desc: "결과 값을 채우세요.",
           slots: { upper: String(n), lower: "k=1", term: "2k", result: null },
           pool: sixChoices(result, [result / 2, result + 2 * n, n * n, result - 2 * n, result + n]),
           answer: { result: String(result) },
           hint: "2를 밖으로 빼서 계산해 보세요.",
-          proof: `∑2k (k=1..${n}) = ${result}입니다.`,
-          teacher: ""
-        };
-      }
-      if (mode === "term_odd") {
+          proof: `∑2k (k=1..${n}) = ${result}입니다.`
+        });
+      },
+      () => {
         const n = randInt(5, 10);
-        const result = sigmaSum(1, n, "2k-1");
-        return {
+        const result = sigmaSum(2, n, "2k-1");
+        return makeStage({
           target: result, level: "MEDIUM", concept: "홀수합",
           desc: "일반항을 골라 완성하세요.",
-          slots: { upper: String(n), lower: "k=1", term: null, result: String(result) },
-        pool: choicePool(["2k-1"], ["k", "2k", "k²", "k-1", "3k"]),
+          slots: { upper: String(n), lower: "k=2", term: null, result: String(result) },
+          pool: choicePool(["2k-1"], ["k", "2k", "k²", "k-1", "3k"]),
           answer: { term: "2k-1" },
-          hint: "1,3,5,... 형태를 만드는 항을 찾으세요.",
-          proof: `처음 ${n}개 홀수의 합은 ${result}입니다.`,
-          teacher: ""
-        };
-      }
-      if (mode === "lower_shift") {
+          hint: "3,5,7,... 형태를 만드는 항을 찾으세요.",
+          proof: `3부터 ${2 * n - 1}까지의 홀수합은 ${result}입니다.`
+        });
+      },
+      () => {
         const a = randInt(2, 5);
         const b = a + randInt(3, 6);
         const result = sigmaSum(a, b, "k");
-        return {
+        return makeStage({
           target: result, level: "MEDIUM", concept: "하한 이동",
           desc: "하한을 채워 식을 완성하세요.",
           slots: { upper: String(b), lower: null, term: "k", result: String(result) },
           pool: sixChoices(`k=${a}`, [`k=${a-1}`, `k=${a+1}`, `k=1`, `k=0`, String(result), `k=${b}`]),
           answer: { lower: `k=${a}` },
           hint: "합에 들어가는 첫 수를 맞추세요.",
-          proof: `${a}부터 ${b}까지 합은 ${result}입니다.`,
-          teacher: ""
-        };
+          proof: `${a}부터 ${b}까지 합은 ${result}입니다.`
+        });
+      },
+      () => {
+        const n = randInt(4, 8);
+        const result = sigmaSum(1, n, "k²");
+        return makeStage({
+          target: result, level: "MEDIUM", concept: "제곱합",
+          desc: "상한과 일반항을 함께 채우세요.",
+          slots: { upper: null, lower: "k=1", term: null, result: String(result) },
+          pool: choicePool([String(n), "k²"], [n - 1, n + 1, "k", "k³", result]),
+          answer: { upper: String(n), term: "k²" },
+          hint: "k²인지 k³인지 구분해 보세요.",
+          proof: `1²부터 ${n}²까지의 합은 ${result}입니다.`
+        });
+      },
+      () => {
+        const n = randInt(5, 9);
+        const result = sigmaSum(2, n, "3k");
+        return makeStage({
+          target: result, level: "MEDIUM", concept: "선형 결합",
+          desc: "상한과 결과를 함께 채우세요.",
+          slots: { upper: null, lower: "k=2", term: "3k", result: null },
+          pool: choicePool([String(n), String(result)], [n - 1, n + 1, result - 3 * n, result + 3 * n, "2k"]),
+          answer: { upper: String(n), result: String(result) },
+          hint: "상한을 정하면 결과도 함께 결정됩니다.",
+          proof: `∑3k (k=2..${n}) = ${result}입니다.`
+        });
+      },
+      () => {
+        const a = randInt(2, 4);
+        const b = a + randInt(4, 6);
+        const result = sigmaSum(a, b, "k-1");
+        return makeStage({
+          target: result, level: "MEDIUM", concept: "인덱스 이동",
+          desc: "하한과 일반항을 함께 채우세요.",
+          slots: { upper: String(b), lower: null, term: null, result: String(result) },
+          pool: choicePool([`k=${a}`, "k-1"], [`k=${a - 1}`, `k=${a + 1}`, "k", "2k", "2k-1"]),
+          answer: { lower: `k=${a}`, term: "k-1" },
+          hint: "k에 들어가는 첫 값과 실제 첫 항은 다릅니다.",
+          proof: `${a - 1}부터 ${b - 1}까지 더하면 ${result}입니다.`
+        });
+      },
+      () => {
+        const a = randInt(2, 4);
+        const b = a + randInt(3, 5);
+        const result = sigmaSum(a, b, "2k-1");
+        return makeStage({
+          target: result, level: "MEDIUM", concept: "하한 이동",
+          desc: "결과 값을 채우세요.",
+          slots: { upper: String(b), lower: `k=${a}`, term: "2k-1", result: null },
+          pool: sixChoices(result, [result - 2 * b, result + 2 * a, result - 1, result + 1, b * b]),
+          answer: { result: String(result) },
+          hint: "하한이 1이 아니므로 첫 홀수가 1이 아닙니다.",
+          proof: `${2 * a - 1}부터 ${2 * b - 1}까지의 홀수합은 ${result}입니다.`
+        });
       }
-      const n = randInt(4, 8);
-      const result = sigmaSum(1, n, "k²");
-      return {
-        target: result, level: "MEDIUM", concept: "제곱합",
-        desc: "상한과 일반항을 함께 채우세요.",
-        slots: { upper: null, lower: "k=1", term: null, result: String(result) },
-        pool: choicePool([String(n), "k²"], [n - 1, n + 1, "k", "k³", result]),
-        answer: { upper: String(n), term: "k²" },
-        hint: "k²인지 k³인지 구분해 보세요.",
-        proof: `1²부터 ${n}²까지의 합은 ${result}입니다.`,
-        teacher: ""
-      };
-    }
+    ];
 
-    function hardStage() {
-      const mode = pick(["two_blank_cubic", "three_blank_cubic", "three_blank_square"]);
-      if (mode === "two_blank_cubic") {
-        const n = randInt(3, 6);
-        const result = sigmaSum(1, n, "k³");
-        return {
+    const hardGenerators = [
+      () => {
+        const n = randInt(4, 7);
+        const result = sigmaSum(2, n, "k³");
+        return makeStage({
           target: result, level: "HARD", concept: "세제곱합",
           desc: "일반항과 결과를 완성하세요.",
-          slots: { upper: String(n), lower: "k=1", term: null, result: null },
+          slots: { upper: String(n), lower: "k=2", term: null, result: null },
           pool: choicePool(["k³", String(result)], ["k²", "2k", result + n, result - n, "3k"]),
           answer: { term: "k³", result: String(result) },
           hint: "세제곱 항을 먼저 찾으세요.",
-          proof: `1³부터 ${n}³까지 합은 ${result}입니다.`,
-          teacher: ""
-        };
-      }
-      if (mode === "three_blank_square") {
+          proof: `2³부터 ${n}³까지 합은 ${result}입니다.`
+        });
+      },
+      () => {
         const n = randInt(5, 9);
-        const result = sigmaSum(1, n, "k²");
-        return {
+        const result = sigmaSum(2, n, "k²");
+        return makeStage({
           target: result, level: "HARD", concept: "3칸 조립",
           desc: "상한, 일반항, 결과를 모두 완성하세요.",
-          slots: { upper: null, lower: "k=1", term: null, result: null },
+          slots: { upper: null, lower: "k=2", term: null, result: null },
           pool: choicePool([String(n), "k²", String(result)], [n - 1, n + 1, "k³", "2k", result + n]),
           answer: { upper: String(n), term: "k²", result: String(result) },
           hint: "상한과 일반항을 먼저 맞추면 결과가 보입니다.",
-          proof: `1²부터 ${n}²까지 합은 ${result}입니다.`,
-          teacher: ""
-        };
+          proof: `2²부터 ${n}²까지 합은 ${result}입니다.`
+        });
+      },
+      () => {
+        const n = randInt(4, 7);
+        const result = sigmaSum(1, n, "k³");
+        return makeStage({
+          target: result, level: "HARD", concept: "세제곱합",
+          desc: "상한, 일반항, 결과를 모두 완성하세요.",
+          slots: { upper: null, lower: "k=1", term: null, result: null },
+          pool: choicePool([String(n), "k³", String(result)], [n - 1, n + 1, "k²", "3k", result + n * n]),
+          answer: { upper: String(n), term: "k³", result: String(result) },
+          hint: "k³ 형태와 n을 함께 찾아보세요.",
+          proof: `1³부터 ${n}³까지 합은 ${result}입니다.`
+        });
+      },
+      () => {
+        const a = randInt(3, 4);
+        const b = a + randInt(3, 5);
+        const result = sigmaSum(a, b, "k²");
+        return makeStage({
+          target: result, level: "HARD", concept: "하한 이동",
+          desc: "하한, 일반항, 결과를 모두 완성하세요.",
+          slots: { upper: String(b), lower: null, term: null, result: null },
+          pool: choicePool([`k=${a}`, "k²", String(result)], [`k=${a - 1}`, `k=${a + 1}`, "k", "k³", result + b]),
+          answer: { lower: `k=${a}`, term: "k²", result: String(result) },
+          hint: "제곱합도 시작점이 바뀌면 결과가 크게 달라집니다.",
+          proof: `${a}²부터 ${b}²까지 합은 ${result}입니다.`
+        });
+      },
+      () => {
+        const a = randInt(1, 3);
+        const b = a + randInt(4, 6);
+        const result = sigmaSum(a, b, "3k");
+        return makeStage({
+          target: result, level: "HARD", concept: "선형 결합",
+          desc: "하한, 상한, 결과를 모두 완성하세요.",
+          slots: { upper: null, lower: null, term: "3k", result: null },
+          pool: choicePool([String(b), `k=${a}`, String(result)], [String(b - 1), String(b + 1), `k=${a + 1}`, "2k", result - 3 * b]),
+          answer: { upper: String(b), lower: `k=${a}`, result: String(result) },
+          hint: "시작과 끝을 동시에 맞춰야 항의 개수가 정해집니다.",
+          proof: `${3 * a}부터 ${3 * b}까지 3씩 커지는 합은 ${result}입니다.`
+        });
+      },
+      () => {
+        const a = 3;
+        const b = a + randInt(3, 4);
+        const result = sigmaSum(a, b, "k³");
+        return makeStage({
+          target: result, level: "HARD", concept: "세제곱합",
+          desc: "하한, 상한, 일반항, 결과를 모두 완성하세요.",
+          slots: { upper: null, lower: null, term: null, result: null },
+          pool: choicePool([String(b), `k=${a}`, "k³", String(result)], [String(b + 1), `k=${a - 1}`, "k²", result + b * b]),
+          answer: { upper: String(b), lower: `k=${a}`, term: "k³", result: String(result) },
+          hint: "가장 어려운 조립입니다. 네 칸을 하나의 식으로 읽어 보세요.",
+          proof: `${a}³부터 ${b}³까지 합은 ${result}입니다.`
+        });
       }
-      const n = randInt(4, 7);
-      const result = sigmaSum(1, n, "k³");
-      return {
-        target: result, level: "HARD", concept: "3칸 조립",
-        desc: "상한, 일반항, 결과를 모두 완성하세요.",
-        slots: { upper: null, lower: "k=1", term: null, result: null },
-        pool: choicePool([String(n), "k³", String(result)], [n - 1, n + 1, "k²", "3k", result + n * n]),
-        answer: { upper: String(n), term: "k³", result: String(result) },
-        hint: "k³ 형태와 n을 함께 찾아보세요.",
-        proof: `1³부터 ${n}³까지 합은 ${result}입니다.`,
-        teacher: ""
-      };
+    ];
+
+    function stageSignature(stage) {
+      const filled = { ...stage.slots, ...stage.answer };
+      return `${filled.lower}|${filled.upper}|${filled.term}|${filled.result}`;
     }
+
+    function drawStages(generators, count, usedSignatures = new Set()) {
+      const out = [];
+      let attempts = 0;
+      while (out.length < count && attempts < count * 250) {
+        shuffle(generators).forEach(generator => {
+          if (out.length >= count) return;
+          const stage = generator();
+          const signature = stageSignature(stage);
+          attempts += 1;
+          if (usedSignatures.has(signature)) return;
+          usedSignatures.add(signature);
+          out.push(stage);
+        });
+      }
+      while (out.length < count) out.push(pick(generators)());
+      return out;
+    }
+
+    function easyStage() { return pick(easyGenerators)(); }
+    function mediumStage() { return pick(mediumGenerators)(); }
+    function hardStage() { return pick(hardGenerators)(); }
 
     function generateStageByDifficulty(difficulty) {
       if (difficulty === "easy") return easyStage();
@@ -1085,20 +1333,23 @@
         const easyCount = Math.ceil(count * 0.35);
         const mediumCount = Math.ceil(count * 0.35);
         const hardCount = count - easyCount - mediumCount;
+        const usedSignatures = new Set();
         return [
-          ...Array.from({ length: easyCount }, () => easyStage()),
-          ...Array.from({ length: mediumCount }, () => mediumStage()),
-          ...Array.from({ length: hardCount }, () => hardStage())
+          ...drawStages(easyGenerators, easyCount, usedSignatures),
+          ...drawStages(mediumGenerators, mediumCount, usedSignatures),
+          ...drawStages(hardGenerators, hardCount, usedSignatures)
         ];
       }
-      const out = [];
-      for (let i = 0; i < count; i += 1) out.push(generateStageByDifficulty(difficulty));
-      return out;
+      const map = { easy: easyGenerators, medium: mediumGenerators, hard: hardGenerators };
+      return drawStages(map[difficulty] || [...easyGenerators, ...mediumGenerators, ...hardGenerators], count, new Set());
     }
 
     let stages = buildSessionStages("mixed", 20);
 
     const els = {
+      startScreen: document.getElementById("start-screen"),
+      startDifficulty: document.getElementById("start-difficulty"),
+      startBtn: document.getElementById("start-btn"),
       app: document.getElementById("app"),
       stagePanel: document.getElementById("stage-panel"),
       stageBadge: document.getElementById("stage-badge"),
@@ -1122,13 +1373,12 @@
       teacherNotes: document.getElementById("teacher-notes"),
       progress: document.getElementById("progress-map"),
       progressLabel: document.getElementById("progress-label"),
-      ranking: document.getElementById("ranking"),
       accuracy: document.getElementById("accuracy-chip"),
       toast: document.getElementById("toast"),
       modal: document.getElementById("finish-modal"),
       summary: document.getElementById("finish-summary"),
-      playerName: document.getElementById("player-name"),
-      saveScore: document.getElementById("save-score-btn"),
+      retry: document.getElementById("retry-btn"),
+      home: document.getElementById("home-btn"),
       fx: document.getElementById("fx")
     };
 
@@ -1594,51 +1844,39 @@
       els.progressLabel.textContent = `${Math.round((state.completed.size / stages.length) * 100)}%`;
     }
 
-    function renderRanking() {
-      const rows = getRanking();
-      els.ranking.innerHTML = "";
-      if (!rows.length) {
-        els.ranking.innerHTML = `<div class="lesson-card">아직 기록이 없습니다. 첫 완주 기록을 남겨보세요.</div>`;
-        return;
-      }
-      rows.slice(0, 6).forEach((row, i) => {
-        const item = document.createElement("div");
-        item.className = "rank-row";
-        item.innerHTML = `<strong>${i + 1}</strong><span class="name">${escapeHtml(row.name)}</span><span class="score">${row.score}</span>`;
-        els.ranking.appendChild(item);
-      });
+    function selectedDifficulty() {
+      return els.difficultySelect ? els.difficultySelect.value : "mixed";
     }
 
-    function getRanking() {
-      try { return JSON.parse(localStorage.getItem("sigma-is-you-ranking") || "[]"); }
-      catch { return []; }
+    function startChallenge() {
+      if (els.startDifficulty && els.difficultySelect) els.difficultySelect.value = els.startDifficulty.value;
+      els.startScreen.classList.add("hidden");
+      els.app.classList.remove("hidden");
+      restart(true);
     }
 
-    function saveRanking() {
-      const name = els.playerName.value.trim() || "PLAYER";
-      const rows = getRanking();
-      rows.push({ name, score: state.score, date: new Date().toISOString() });
-      rows.sort((a, b) => b.score - a.score);
-      localStorage.setItem("sigma-is-you-ranking", JSON.stringify(rows.slice(0, 10)));
+    function returnHome() {
+      clearInterval(timerId);
+      timerId = null;
+      particles = [];
       els.modal.classList.remove("show");
-      renderRanking();
-      showToast("랭킹에 등록되었습니다.");
-    }
-
-    function escapeHtml(text) {
-      return text.replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+      els.app.classList.add("hidden");
+      els.startScreen.classList.remove("hidden");
+      if (els.startDifficulty && els.difficultySelect) els.startDifficulty.value = els.difficultySelect.value;
     }
 
     function finish() {
       clearInterval(timerId);
+      timerId = null;
       const seconds = Math.floor((Date.now() - state.startTime) / 1000);
-      els.summary.textContent = `최종 점수 ${state.score}점, 소요 시간 ${Math.floor(seconds / 60)}분 ${seconds % 60}초입니다.`;
+      const acc = state.attempts ? Math.round((state.correct / state.attempts) * 100) : 100;
+      els.summary.innerHTML = `최종 점수 <strong>${state.score}</strong>점 · 정확도 <strong>${acc}%</strong><br>소요 시간 ${Math.floor(seconds / 60)}분 ${seconds % 60}초`;
       els.modal.classList.add("show");
       confetti(90);
     }
 
-    function restart() {
-      const difficulty = els.difficultySelect ? els.difficultySelect.value : "mixed";
+    function restart(silent = false) {
+      const difficulty = selectedDifficulty();
       stages = buildSessionStages(difficulty, 20);
       state = {
         stageIndex: 0,
@@ -1654,9 +1892,10 @@
         completed: new Set()
       };
       clearInterval(timerId);
+      els.time.textContent = "00:00";
       startTimer();
       renderStage();
-      showToast("새 게임을 시작했습니다.");
+      if (!silent) showToast("새 게임을 시작했습니다.");
     }
 
     function startTimer() {
@@ -1718,11 +1957,16 @@
       });
     }
 
+    els.startBtn.addEventListener("click", startChallenge);
     els.submit.addEventListener("click", submit);
     els.reset.addEventListener("click", resetWorkspace);
     els.hint.addEventListener("click", hint);
-    els.restart.addEventListener("click", restart);
-    els.saveScore.addEventListener("click", saveRanking);
+    els.restart.addEventListener("click", () => restart());
+    els.retry.addEventListener("click", () => {
+      els.modal.classList.remove("show");
+      restart();
+    });
+    els.home.addEventListener("click", returnHome);
     els.sound.addEventListener("click", () => {
       state.sound = !state.sound;
       els.sound.textContent = state.sound ? "♪" : "×";
@@ -1736,9 +1980,7 @@
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
     animate();
-    startTimer();
     renderStage();
-    renderRanking();
   </script>
 </body>
 </html>
