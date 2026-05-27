@@ -8,7 +8,6 @@
     :root {
       --bg: #f7f9fc;
       --panel: rgba(255, 255, 255, 0.96);
-      --panel-2: #ffffff;
       --line: #d8e0ec;
       --text: #152033;
       --muted: #5e6b7e;
@@ -17,10 +16,7 @@
       --cyan: #067f95;
       --lime: #258a44;
       --yellow: #b87200;
-      --violet: #6c54d9;
       --red: #d63e45;
-      --blue: #236dd9;
-      --orange: #d66b21;
       --shadow: 0 18px 55px rgba(47, 73, 112, 0.16);
       --radius: 8px;
     }
@@ -54,7 +50,7 @@
       mask-image: linear-gradient(to bottom, rgba(0,0,0,0.82), transparent 88%);
     }
 
-    button, input { font: inherit; }
+    button { font: inherit; }
 
     button {
       border: 0;
@@ -181,10 +177,6 @@
       text-shadow: none;
     }
 
-    .subtitle {
-      display: none;
-    }
-
     .top-actions {
       display: flex;
       gap: 8px;
@@ -192,7 +184,7 @@
       justify-content: flex-end;
     }
 
-    .chip, .icon-btn, .mode-btn, .primary-btn, .ghost-btn {
+    .chip, .icon-btn, .primary-btn, .ghost-btn {
       border-radius: var(--radius);
       border: 1px solid var(--line);
       background: rgba(255, 255, 255, 0.9);
@@ -228,7 +220,7 @@
       color: var(--muted);
     }
 
-    .icon-btn:hover, .mode-btn:hover, .ghost-btn:hover {
+    .icon-btn:hover, .ghost-btn:hover {
       border-color: rgba(21, 32, 51, 0.24);
       color: var(--text);
       background: #eef5fb;
@@ -242,7 +234,7 @@
       margin-top: 18px;
     }
 
-    .stage-panel, .side-panel, .modal-card {
+    .stage-panel, .modal-card {
       background: var(--panel);
       border: 1px solid rgba(21, 32, 51, 0.1);
       box-shadow: var(--shadow);
@@ -290,7 +282,6 @@
     .pink { color: var(--pink); }
     .yellow { color: var(--yellow); }
     .lime { color: var(--lime); }
-    .violet { color: var(--violet); }
     .red { color: var(--red); }
 
     .stage-body {
@@ -396,40 +387,6 @@
       font-weight: 900;
     }
 
-    .live-card {
-      display: none;
-      border: 1px solid rgba(21, 32, 51, 0.1);
-      background: #ffffff;
-      border-radius: var(--radius);
-      padding: 14px;
-      min-height: 360px;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .live-expression {
-      min-height: 74px;
-      display: grid;
-      align-content: center;
-      padding: 12px;
-      border: 1px solid rgba(6, 127, 149, 0.2);
-      background: #eefbfc;
-      color: var(--cyan);
-      border-radius: var(--radius);
-      font-family: Consolas, monospace;
-      font-size: 16px;
-      line-height: 1.45;
-    }
-
-    .mini-proof {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.55;
-      word-break: keep-all;
-    }
-
-    .mini-proof strong { color: var(--text); }
-
     .blocks-wrap {
       margin-top: 14px;
       padding: 14px;
@@ -446,12 +403,6 @@
       margin-bottom: 10px;
       gap: 10px;
       text-align: center;
-    }
-
-    .selected-name {
-      display: none;
-      color: var(--muted);
-      font-size: 12px;
     }
 
     .blocks {
@@ -507,7 +458,7 @@
       gap: 10px;
     }
 
-    .primary-btn, .ghost-btn, .mode-btn {
+    .primary-btn, .ghost-btn {
       min-height: 44px;
       padding: 0 13px;
       font-weight: 900;
@@ -523,119 +474,6 @@
     .primary-btn:hover { filter: brightness(1.08); }
 
     .ghost-btn { color: var(--muted); }
-
-    .mode-row {
-      display: none;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .mode-btn.active {
-      border-color: var(--cyan);
-      color: var(--cyan);
-      background: rgba(56, 223, 244, 0.08);
-    }
-
-    .side-panel {
-      padding: 14px;
-      margin-bottom: 14px;
-    }
-
-    .side { display: none !important; }
-
-    #hint-btn { display: none; }
-
-    .side-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .side-title h2 {
-      margin: 0;
-      font-size: 16px;
-    }
-
-    .progress-map {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 7px;
-    }
-
-    .node {
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.04);
-      border-radius: var(--radius);
-      color: var(--dim);
-      font-family: Consolas, monospace;
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .node.done { color: var(--lime); border-color: rgba(158, 247, 95, 0.42); background: rgba(158, 247, 95, 0.08); }
-    .node.now { color: var(--pink); border-color: rgba(255, 79, 139, 0.54); background: rgba(255, 79, 139, 0.08); }
-
-    .lesson-card {
-      padding: 12px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(0,0,0,0.2);
-      border-radius: var(--radius);
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.55;
-      word-break: keep-all;
-    }
-
-    .lesson-card + .lesson-card { margin-top: 9px; }
-    .lesson-card strong { color: var(--text); }
-
-    .teacher-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 10px 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .switch {
-      width: 48px;
-      height: 26px;
-      padding: 3px;
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      background: #090b10;
-    }
-
-    .switch span {
-      display: block;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--dim);
-      transition: transform 150ms ease, background 150ms ease;
-    }
-
-    .switch.on span {
-      transform: translateX(20px);
-      background: var(--lime);
-    }
-
-    .teacher-notes {
-      display: none;
-      margin-top: 8px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 10px;
-    }
-
-    .teacher-notes.show { display: block; }
 
     .toast {
       position: fixed;
@@ -759,8 +597,6 @@
     @media (max-width: 980px) {
       .layout { grid-template-columns: 1fr; }
       .stage-panel { min-height: 0; }
-      .side { display: none !important; }
-      .side-panel { margin-bottom: 0; }
     }
 
     @media (max-width: 720px) {
@@ -788,8 +624,6 @@
       .blocks { gap: 9px; }
       .block { min-width: 0; width: calc((100% - 18px) / 3); padding: 10px 8px; }
       .actions { grid-template-columns: 1fr; }
-      .side { grid-template-columns: 1fr; }
-      .progress-map { grid-template-columns: repeat(4, 1fr); }
     }
   </style>
 </head>
@@ -858,80 +692,34 @@
         </div>
 
         <div class="stage-body">
-          <div class="mode-row" role="tablist" aria-label="학습 모드">
-            <button class="mode-btn active" type="button" data-mode="challenge">챌린지</button>
-            <button class="mode-btn" type="button" data-mode="challenge">챌린지</button>
-            <button class="mode-btn" type="button" data-mode="study">학습</button>
-          </div>
-
           <div class="formula-zone">
             <div class="board" aria-label="시그마 수식 조립판">
               <div class="formula">
                 <div class="sigma-stack">
-                  <button class="slot open" type="button" data-key="upper" onclick="placeBlock('upper')" aria-label="상한 슬롯">upper</button>
+                  <button class="slot open" type="button" data-key="upper" aria-label="상한 슬롯">upper</button>
                   <div class="sigma-symbol">∑</div>
-                  <button class="slot open" type="button" data-key="lower" onclick="placeBlock('lower')" aria-label="하한 슬롯">lower</button>
+                  <button class="slot open" type="button" data-key="lower" aria-label="하한 슬롯">lower</button>
                 </div>
-                <button class="slot open" type="button" data-key="term" onclick="placeBlock('term')" aria-label="일반항 슬롯">term</button>
+                <button class="slot open" type="button" data-key="term" aria-label="일반항 슬롯">term</button>
                 <div class="equals">=</div>
-                <button class="slot open" type="button" data-key="result" onclick="placeBlock('result')" aria-label="결과 슬롯">result</button>
+                <button class="slot open" type="button" data-key="result" aria-label="결과 슬롯">result</button>
               </div>
             </div>
-
-            <aside class="live-card" aria-label="실시간 수학 해설">
-              <div>
-                <div class="label">Live Formula</div>
-                <div class="live-expression" id="live-expression">수식을 완성하세요.</div>
-              </div>
-              <div>
-                <div class="label">Reasoning</div>
-                <div class="mini-proof" id="mini-proof">블록을 선택한 뒤 빈 슬롯을 눌러 수식을 조립합니다.</div>
-              </div>
-              <div>
-                <div class="label">Feedback</div>
-                <div class="mini-proof" id="feedback">정답이면 전개식과 공식을 함께 보여줍니다.</div>
-              </div>
-            </aside>
           </div>
 
           <div class="blocks-wrap">
             <div class="blocks-head">
               <div class="label">보기</div>
-              <div class="selected-name" id="selected-name">선택된 블록 없음</div>
             </div>
             <div class="blocks" id="blocks"></div>
           </div>
 
           <div class="actions">
-            <button class="ghost-btn" type="button" id="hint-btn">힌트</button>
             <button class="ghost-btn" type="button" id="reset-btn">리셋</button>
             <button class="primary-btn" type="button" id="submit-btn">정답 제출</button>
           </div>
         </div>
       </section>
-
-      <aside class="side">
-        <section class="side-panel">
-          <div class="side-title">
-            <h2>진도 맵</h2>
-            <span class="label" id="progress-label">0%</span>
-          </div>
-          <div class="progress-map" id="progress-map"></div>
-        </section>
-
-        <section class="side-panel">
-          <div class="side-title">
-            <h2>수학 핵심</h2>
-            <span class="label" id="concept-label">등차합</span>
-          </div>
-          <div class="lesson-card" id="concept-card"></div>
-          <div class="teacher-toggle">
-            <span>교사용 발문 보기</span>
-            <button class="switch" type="button" id="teacher-switch" aria-label="교사용 발문 보기"><span></span></button>
-          </div>
-          <div class="teacher-notes" id="teacher-notes"></div>
-        </section>
-      </aside>
     </main>
   </div>
 
@@ -1008,11 +796,61 @@
     }
 
     function makeStage(config) {
-      return {
-        teacher: "",
-        hint: "빈칸을 채운 뒤 실제로 더해지는 항을 확인해 보세요.",
-        ...config
-      };
+      return config;
+    }
+
+    function canFillSlot(key, value) {
+      const text = String(value);
+      const isNumber = /^\d+$/.test(text);
+      if (key === "lower") return text.includes("k=");
+      if (key === "upper") return isNumber;
+      if (key === "result") return isNumber;
+      if (key === "term") return Boolean(termFns[text]);
+      return false;
+    }
+
+    function readLowerStart(lower) {
+      if (!lower || !lower.includes("=")) return null;
+      const value = Number(lower.split("=")[1]);
+      return Number.isFinite(value) ? value : null;
+    }
+
+    function isMathSolution(slots) {
+      const start = readLowerStart(slots.lower);
+      const end = Number(slots.upper);
+      const result = Number(slots.result);
+      const fn = termFns[slots.term];
+      if (!fn || !Number.isInteger(start) || !Number.isInteger(end) || !Number.isInteger(result) || start > end) return false;
+      return sigmaSum(start, end, slots.term) === result;
+    }
+
+    function findStageSolutions(stage) {
+      const openKeys = Object.keys(stage.slots).filter(key => stage.slots[key] === null);
+      const solutions = [];
+      function search(index, slots, usedValues) {
+        if (index >= openKeys.length) {
+          if (isMathSolution(slots)) solutions.push({ ...slots });
+          return;
+        }
+        const key = openKeys[index];
+        stage.pool.forEach(value => {
+          const text = String(value);
+          if (usedValues.has(text) || !canFillSlot(key, text)) return;
+          slots[key] = text;
+          usedValues.add(text);
+          search(index + 1, slots, usedValues);
+          usedValues.delete(text);
+          slots[key] = null;
+        });
+      }
+      search(0, { ...stage.slots }, new Set());
+      return solutions;
+    }
+
+    function hasUniqueIntendedSolution(stage) {
+      const solutions = findStageSolutions(stage);
+      if (solutions.length !== 1) return false;
+      return Object.entries(stage.answer).every(([key, value]) => solutions[0][key] === String(value));
     }
 
     const easyGenerators = [
@@ -1020,13 +858,10 @@
         const n = randInt(4, 14);
         const result = sigmaSum(1, n, "k");
         return makeStage({
-          target: result, level: "EASY", concept: "등차합",
-          desc: "상한을 찾아 식을 완성하세요.",
+          level: "EASY",
           slots: { upper: null, lower: "k=1", term: "k", result: String(result) },
           pool: sixChoices(n, [n - 2, n - 1, n + 1, n + 2, result, result - n]),
           answer: { upper: String(n) },
-          hint: "1부터 n까지의 합을 떠올려 보세요.",
-          proof: `1부터 ${n}까지의 합은 ${result}입니다.`
         });
       },
       () => {
@@ -1034,13 +869,10 @@
         const c = randInt(2, 5);
         const result = upper * c;
         return makeStage({
-          target: result, level: "EASY", concept: "상수항",
-          desc: "일반항을 골라 식을 완성하세요.",
+          level: "EASY",
           slots: { upper: String(upper), lower: "k=1", term: null, result: String(result) },
           pool: choicePool([String(c)], ["1", "2", "3", "4", "5", "k", "2k"]),
           answer: { term: String(c) },
-          hint: `같은 수를 ${upper}번 더하는 형태입니다.`,
-          proof: `${c}를 ${upper}번 더하면 ${result}입니다.`
         });
       },
       () => {
@@ -1048,52 +880,40 @@
         const c = randInt(2, 5);
         const result = sigmaSum(2, upper, String(c));
         return makeStage({
-          target: result, level: "EASY", concept: "반복합",
-          desc: "결과 값을 채우세요.",
+          level: "EASY",
           slots: { upper: String(upper), lower: "k=2", term: String(c), result: null },
           pool: sixChoices(result, [result - c, result + c, upper + c, upper * upper, result + upper]),
           answer: { result: String(result) },
-          hint: `${c}가 ${upper - 1}번 반복됩니다.`,
-          proof: `${c}를 ${upper - 1}번 더하면 ${result}입니다.`
         });
       },
       () => {
         const n = randInt(5, 10);
         const result = sigmaSum(1, n, "2k-1");
         return makeStage({
-          target: result, level: "EASY", concept: "홀수합",
-          desc: "상한을 채워 홀수합을 완성하세요.",
+          level: "EASY",
           slots: { upper: null, lower: "k=1", term: "2k-1", result: String(result) },
           pool: sixChoices(n, [n - 2, n - 1, n + 1, n + 2, result, n * n + 1]),
           answer: { upper: String(n) },
-          hint: "처음 n개 홀수의 합은 n²입니다.",
-          proof: `처음 ${n}개 홀수의 합은 ${result}입니다.`
         });
       },
       () => {
         const n = randInt(5, 11);
         const result = sigmaSum(1, n, "k-1");
         return makeStage({
-          target: result, level: "EASY", concept: "인덱스 이동",
-          desc: "일반항을 골라 식을 완성하세요.",
+          level: "EASY",
           slots: { upper: String(n), lower: "k=1", term: null, result: String(result) },
           pool: choicePool(["k-1"], ["k", "2k", "3k", "2k-1", "k²"]),
           answer: { term: "k-1" },
-          hint: "0부터 시작하는 항의 합입니다.",
-          proof: `0부터 ${n - 1}까지 더하면 ${result}입니다.`
         });
       },
       () => {
         const n = randInt(4, 8);
         const result = sigmaSum(1, n, "3k");
         return makeStage({
-          target: result, level: "EASY", concept: "선형항",
-          desc: "결과 값을 채우세요.",
+          level: "EASY",
           slots: { upper: String(n), lower: "k=1", term: "3k", result: null },
           pool: sixChoices(result, [result / 3, result - 3 * n, result + 3 * n, n * n, result + n]),
           answer: { result: String(result) },
-          hint: "3을 합 밖으로 빼서 생각할 수 있습니다.",
-          proof: `∑3k (k=1..${n}) = ${result}입니다.`
         });
       },
       () => {
@@ -1102,13 +922,10 @@
         const c = randInt(2, 4);
         const result = sigmaSum(a, b, String(c));
         return makeStage({
-          target: result, level: "EASY", concept: "하한과 상한",
-          desc: "하한을 채워 반복 횟수를 맞추세요.",
+          level: "EASY",
           slots: { upper: String(b), lower: null, term: String(c), result: String(result) },
           pool: sixChoices(`k=${a}`, [`k=${a - 1}`, `k=${a + 1}`, "k=1", "k=0", String(result), `k=${b}`]),
           answer: { lower: `k=${a}` },
-          hint: "더해지는 항의 개수를 먼저 세어 보세요.",
-          proof: `${c}가 ${b - a + 1}번 더해져 ${result}입니다.`
         });
       }
     ];
@@ -1118,26 +935,20 @@
         const n = randInt(5, 10);
         const result = sigmaSum(1, n, "2k");
         return makeStage({
-          target: result, level: "MEDIUM", concept: "선형항",
-          desc: "결과 값을 채우세요.",
+          level: "MEDIUM",
           slots: { upper: String(n), lower: "k=1", term: "2k", result: null },
           pool: sixChoices(result, [result / 2, result + 2 * n, n * n, result - 2 * n, result + n]),
           answer: { result: String(result) },
-          hint: "2를 밖으로 빼서 계산해 보세요.",
-          proof: `∑2k (k=1..${n}) = ${result}입니다.`
         });
       },
       () => {
         const n = randInt(5, 10);
         const result = sigmaSum(2, n, "2k-1");
         return makeStage({
-          target: result, level: "MEDIUM", concept: "홀수합",
-          desc: "일반항을 골라 완성하세요.",
+          level: "MEDIUM",
           slots: { upper: String(n), lower: "k=2", term: null, result: String(result) },
           pool: choicePool(["2k-1"], ["k", "2k", "k²", "k-1", "3k"]),
           answer: { term: "2k-1" },
-          hint: "3,5,7,... 형태를 만드는 항을 찾으세요.",
-          proof: `3부터 ${2 * n - 1}까지의 홀수합은 ${result}입니다.`
         });
       },
       () => {
@@ -1145,39 +956,30 @@
         const b = a + randInt(3, 6);
         const result = sigmaSum(a, b, "k");
         return makeStage({
-          target: result, level: "MEDIUM", concept: "하한 이동",
-          desc: "하한을 채워 식을 완성하세요.",
+          level: "MEDIUM",
           slots: { upper: String(b), lower: null, term: "k", result: String(result) },
           pool: sixChoices(`k=${a}`, [`k=${a-1}`, `k=${a+1}`, `k=1`, `k=0`, String(result), `k=${b}`]),
           answer: { lower: `k=${a}` },
-          hint: "합에 들어가는 첫 수를 맞추세요.",
-          proof: `${a}부터 ${b}까지 합은 ${result}입니다.`
         });
       },
       () => {
         const n = randInt(4, 8);
         const result = sigmaSum(1, n, "k²");
         return makeStage({
-          target: result, level: "MEDIUM", concept: "제곱합",
-          desc: "상한과 일반항을 함께 채우세요.",
+          level: "MEDIUM",
           slots: { upper: null, lower: "k=1", term: null, result: String(result) },
           pool: choicePool([String(n), "k²"], [n - 1, n + 1, "k", "k³", result]),
           answer: { upper: String(n), term: "k²" },
-          hint: "k²인지 k³인지 구분해 보세요.",
-          proof: `1²부터 ${n}²까지의 합은 ${result}입니다.`
         });
       },
       () => {
         const n = randInt(5, 9);
         const result = sigmaSum(2, n, "3k");
         return makeStage({
-          target: result, level: "MEDIUM", concept: "선형 결합",
-          desc: "상한과 결과를 함께 채우세요.",
+          level: "MEDIUM",
           slots: { upper: null, lower: "k=2", term: "3k", result: null },
           pool: choicePool([String(n), String(result)], [n - 1, n + 1, result - 3 * n, result + 3 * n, "2k"]),
           answer: { upper: String(n), result: String(result) },
-          hint: "상한을 정하면 결과도 함께 결정됩니다.",
-          proof: `∑3k (k=2..${n}) = ${result}입니다.`
         });
       },
       () => {
@@ -1185,13 +987,10 @@
         const b = a + randInt(4, 6);
         const result = sigmaSum(a, b, "k-1");
         return makeStage({
-          target: result, level: "MEDIUM", concept: "인덱스 이동",
-          desc: "하한과 일반항을 함께 채우세요.",
+          level: "MEDIUM",
           slots: { upper: String(b), lower: null, term: null, result: String(result) },
           pool: choicePool([`k=${a}`, "k-1"], [`k=${a - 1}`, `k=${a + 1}`, "k", "2k", "2k-1"]),
           answer: { lower: `k=${a}`, term: "k-1" },
-          hint: "k에 들어가는 첫 값과 실제 첫 항은 다릅니다.",
-          proof: `${a - 1}부터 ${b - 1}까지 더하면 ${result}입니다.`
         });
       },
       () => {
@@ -1199,13 +998,10 @@
         const b = a + randInt(3, 5);
         const result = sigmaSum(a, b, "2k-1");
         return makeStage({
-          target: result, level: "MEDIUM", concept: "하한 이동",
-          desc: "결과 값을 채우세요.",
+          level: "MEDIUM",
           slots: { upper: String(b), lower: `k=${a}`, term: "2k-1", result: null },
           pool: sixChoices(result, [result - 2 * b, result + 2 * a, result - 1, result + 1, b * b]),
           answer: { result: String(result) },
-          hint: "하한이 1이 아니므로 첫 홀수가 1이 아닙니다.",
-          proof: `${2 * a - 1}부터 ${2 * b - 1}까지의 홀수합은 ${result}입니다.`
         });
       }
     ];
@@ -1215,39 +1011,30 @@
         const n = randInt(4, 7);
         const result = sigmaSum(2, n, "k³");
         return makeStage({
-          target: result, level: "HARD", concept: "세제곱합",
-          desc: "일반항과 결과를 완성하세요.",
+          level: "HARD",
           slots: { upper: String(n), lower: "k=2", term: null, result: null },
           pool: choicePool(["k³", String(result)], ["k²", "2k", result + n, result - n, "3k"]),
           answer: { term: "k³", result: String(result) },
-          hint: "세제곱 항을 먼저 찾으세요.",
-          proof: `2³부터 ${n}³까지 합은 ${result}입니다.`
         });
       },
       () => {
         const n = randInt(5, 9);
         const result = sigmaSum(2, n, "k²");
         return makeStage({
-          target: result, level: "HARD", concept: "3칸 조립",
-          desc: "상한, 일반항, 결과를 모두 완성하세요.",
+          level: "HARD",
           slots: { upper: null, lower: "k=2", term: null, result: null },
           pool: choicePool([String(n), "k²", String(result)], [n - 1, n + 1, "k³", "2k", result + n]),
           answer: { upper: String(n), term: "k²", result: String(result) },
-          hint: "상한과 일반항을 먼저 맞추면 결과가 보입니다.",
-          proof: `2²부터 ${n}²까지 합은 ${result}입니다.`
         });
       },
       () => {
         const n = randInt(4, 7);
         const result = sigmaSum(1, n, "k³");
         return makeStage({
-          target: result, level: "HARD", concept: "세제곱합",
-          desc: "상한, 일반항, 결과를 모두 완성하세요.",
+          level: "HARD",
           slots: { upper: null, lower: "k=1", term: null, result: null },
           pool: choicePool([String(n), "k³", String(result)], [n - 1, n + 1, "k²", "3k", result + n * n]),
           answer: { upper: String(n), term: "k³", result: String(result) },
-          hint: "k³ 형태와 n을 함께 찾아보세요.",
-          proof: `1³부터 ${n}³까지 합은 ${result}입니다.`
         });
       },
       () => {
@@ -1255,13 +1042,10 @@
         const b = a + randInt(3, 5);
         const result = sigmaSum(a, b, "k²");
         return makeStage({
-          target: result, level: "HARD", concept: "하한 이동",
-          desc: "하한, 일반항, 결과를 모두 완성하세요.",
+          level: "HARD",
           slots: { upper: String(b), lower: null, term: null, result: null },
           pool: choicePool([`k=${a}`, "k²", String(result)], [`k=${a - 1}`, `k=${a + 1}`, "k", "k³", result + b]),
           answer: { lower: `k=${a}`, term: "k²", result: String(result) },
-          hint: "제곱합도 시작점이 바뀌면 결과가 크게 달라집니다.",
-          proof: `${a}²부터 ${b}²까지 합은 ${result}입니다.`
         });
       },
       () => {
@@ -1269,13 +1053,10 @@
         const b = a + randInt(4, 6);
         const result = sigmaSum(a, b, "3k");
         return makeStage({
-          target: result, level: "HARD", concept: "선형 결합",
-          desc: "하한, 상한, 결과를 모두 완성하세요.",
+          level: "HARD",
           slots: { upper: null, lower: null, term: "3k", result: null },
           pool: choicePool([String(b), `k=${a}`, String(result)], [String(b - 1), String(b + 1), `k=${a + 1}`, "2k", result - 3 * b]),
           answer: { upper: String(b), lower: `k=${a}`, result: String(result) },
-          hint: "시작과 끝을 동시에 맞춰야 항의 개수가 정해집니다.",
-          proof: `${3 * a}부터 ${3 * b}까지 3씩 커지는 합은 ${result}입니다.`
         });
       },
       () => {
@@ -1283,13 +1064,10 @@
         const b = a + randInt(3, 4);
         const result = sigmaSum(a, b, "k³");
         return makeStage({
-          target: result, level: "HARD", concept: "세제곱합",
-          desc: "하한, 상한, 일반항, 결과를 모두 완성하세요.",
+          level: "HARD",
           slots: { upper: null, lower: null, term: null, result: null },
           pool: choicePool([String(b), `k=${a}`, "k³", String(result)], [String(b + 1), `k=${a - 1}`, "k²", result + b * b]),
           answer: { upper: String(b), lower: `k=${a}`, term: "k³", result: String(result) },
-          hint: "가장 어려운 조립입니다. 네 칸을 하나의 식으로 읽어 보세요.",
-          proof: `${a}³부터 ${b}³까지 합은 ${result}입니다.`
         });
       }
     ];
@@ -1308,18 +1086,26 @@
           const stage = generator();
           const signature = stageSignature(stage);
           attempts += 1;
+          if (!hasUniqueIntendedSolution(stage)) return;
           if (usedSignatures.has(signature)) return;
           usedSignatures.add(signature);
           out.push(stage);
         });
       }
-      while (out.length < count) out.push(pick(generators)());
       return out;
     }
 
-    function easyStage() { return pick(easyGenerators)(); }
-    function mediumStage() { return pick(mediumGenerators)(); }
-    function hardStage() { return pick(hardGenerators)(); }
+    function generateUniqueStage(generators) {
+      for (let attempt = 0; attempt < 1000; attempt += 1) {
+        const stage = pick(generators)();
+        if (hasUniqueIntendedSolution(stage)) return stage;
+      }
+      return pick(generators)();
+    }
+
+    function easyStage() { return generateUniqueStage(easyGenerators); }
+    function mediumStage() { return generateUniqueStage(mediumGenerators); }
+    function hardStage() { return generateUniqueStage(hardGenerators); }
 
     function generateStageByDifficulty(difficulty) {
       if (difficulty === "easy") return easyStage();
@@ -1357,22 +1143,11 @@
       combo: document.getElementById("combo"),
       time: document.getElementById("time"),
       difficultySelect: document.getElementById("difficulty-select"),
-      live: document.getElementById("live-expression"),
-      proof: document.getElementById("mini-proof"),
-      feedback: document.getElementById("feedback"),
       blocks: document.getElementById("blocks"),
-      selected: document.getElementById("selected-name"),
-      hint: document.getElementById("hint-btn"),
       reset: document.getElementById("reset-btn"),
       submit: document.getElementById("submit-btn"),
       restart: document.getElementById("restart-btn"),
       sound: document.getElementById("sound-btn"),
-      conceptLabel: document.getElementById("concept-label"),
-      conceptCard: document.getElementById("concept-card"),
-      teacherSwitch: document.getElementById("teacher-switch"),
-      teacherNotes: document.getElementById("teacher-notes"),
-      progress: document.getElementById("progress-map"),
-      progressLabel: document.getElementById("progress-label"),
       accuracy: document.getElementById("accuracy-chip"),
       toast: document.getElementById("toast"),
       modal: document.getElementById("finish-modal"),
@@ -1391,9 +1166,7 @@
       startTime: Date.now(),
       selectedBlock: null,
       slots: {},
-      mode: "challenge",
-      sound: true,
-      completed: new Set()
+      sound: true
     };
 
     let audioCtx = null;
@@ -1425,7 +1198,7 @@
       const engine = initAudio();
       if (!engine) return;
       const now = audioCtx.currentTime;
-      const notes = kind === "ok" ? [523, 659, 784, 1047] : kind === "hint" ? [392, 440] : kind === "tap" ? [440, 554] : [160, 90];
+      const notes = kind === "ok" ? [523, 659, 784, 1047] : kind === "tap" ? [440, 554] : [160, 90];
       notes.forEach((freq, i) => {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
@@ -1454,9 +1227,7 @@
     }
 
     function lowerStart(lower) {
-      if (!lower || !lower.includes("=")) return null;
-      const n = Number(lower.split("=")[1]);
-      return Number.isFinite(n) ? n : null;
+      return readLowerStart(lower);
     }
 
     function sigmaValue(slots) {
@@ -1480,42 +1251,14 @@
       return values.join(" + ") + tail;
     }
 
-    function displayFormula(slots) {
-      const upper = slots.upper || "?";
-      const lower = slots.lower || "k=?";
-      const term = slots.term || "?";
-      const result = slots.result || "?";
-      return `Σ(${lower} → ${upper}) ${term} = ${result}`;
-    }
-
     function renderStage() {
       const stage = currentStage();
       state.slots = cloneSlots(stage.slots);
       state.selectedBlock = null;
       els.stageBadge.textContent = `${pad(state.stageIndex + 1)}/${pad(stages.length)}`;
-      els.conceptLabel.textContent = stage.concept;
-      els.conceptCard.innerHTML = conceptText(stage.concept);
-      els.teacherNotes.innerHTML = `<div class="lesson-card"><strong>발문</strong><br>${stage.teacher}</div>`;
       renderSlots();
       renderBlocks();
-      renderProgress();
       renderHud();
-      updateLive();
-    }
-
-    function conceptText(concept) {
-      const map = {
-        "등차합": "<strong>∑k = n(n+1)/2</strong><br>1부터 n까지 일정하게 1씩 커지는 수의 합입니다.",
-        "상수항": "<strong>∑c = c×항의 개수</strong><br>인덱스 k가 바뀌어도 항이 변하지 않으면 반복 덧셈으로 봅니다.",
-        "제곱합": "<strong>∑k²</strong><br>제곱수의 누적합입니다. 작은 n은 직접 전개, 큰 n은 공식을 씁니다.",
-        "하한 이동": "<strong>k=a부터 시작</strong><br>하한이 1이 아니면 실제로 더하는 첫 항이 달라집니다.",
-        "홀수합": "<strong>∑(2k-1)=n²</strong><br>처음 n개 홀수의 합은 정사각형 수가 됩니다.",
-        "선형항": "<strong>∑ak = a∑k</strong><br>각 항에 같은 수를 곱하면 전체 합에도 같은 수가 곱해집니다.",
-        "인덱스 이동": "<strong>대입 목록 확인</strong><br>k의 시작값과 일반항을 함께 읽어야 실제 항이 보입니다.",
-        "선형 결합": "<strong>합의 선형성</strong><br>상수배와 덧셈은 합 기호 밖에서 구조적으로 다룰 수 있습니다.",
-        "하한과 상한": "<strong>항의 개수</strong><br>상한-하한+1이 더해지는 항의 개수입니다."
-      };
-      return map[concept] || "<strong>합의 기호</strong><br>하한, 상한, 일반항, 결과를 함께 읽습니다.";
     }
 
     function renderHud() {
@@ -1576,18 +1319,10 @@
         });
         els.blocks.appendChild(btn);
       });
-      els.selected.textContent = state.selectedBlock ? `선택: ${state.selectedBlock}` : "선택된 블록 없음";
     }
 
     function valueSlot(text) {
       return Object.keys(state.slots).find(k => state.slots[k] === text);
-    }
-
-    function selectBlock(text) {
-      initAudio();
-      state.selectedBlock = state.selectedBlock === text ? null : text;
-      renderBlocks();
-      updateLive();
     }
 
     function startBlockDrag(event, text, sourceEl) {
@@ -1597,7 +1332,6 @@
       initAudio();
       state.selectedBlock = text;
       sourceEl.classList.add("selected");
-      updateLive();
 
       const rect = sourceEl.getBoundingClientRect();
       const placeholder = document.createElement("div");
@@ -1683,58 +1417,25 @@
 
       if (!slot) {
         state.selectedBlock = null;
-        els.selected.textContent = "선택된 블록 없음";
-        updateLive();
         return;
       }
       const key = slot.dataset.key;
       if (slotIsFixed(key) || state.slots[key]) {
         state.selectedBlock = null;
-        els.selected.textContent = "선택된 블록 없음";
-        updateLive();
         return;
       }
       if (!canPlaceValue(key, block)) {
         state.selectedBlock = null;
-        els.selected.textContent = "선택된 블록 없음";
         markWrong(key);
         showToast("이 칸에는 이 블록을 놓을 수 없어요.");
         tone("bad");
-        updateLive();
         return;
       }
       commitBlock(key, block);
     }
 
     function canPlaceValue(key, block) {
-      const type = blockType(block);
-      return (
-        key === "lower" ? type === "lower" :
-        key === "upper" ? /^\d+$/.test(block) :
-        key === "result" ? /^\d+$/.test(block) || type === "trap" :
-        key === "term" ? type === "term" || type === "trap" :
-        false
-      );
-    }
-
-    function placeBlock(key, sourceEl) {
-      if (slotIsFixed(key)) return;
-      if (!state.selectedBlock) {
-        showToast("먼저 아래의 규칙 블록을 선택하세요.");
-        return;
-      }
-      const block = state.selectedBlock;
-      if (!canPlaceValue(key, block)) {
-        markWrong(key);
-        showToast("그 블록은 이 슬롯의 문법과 맞지 않습니다.");
-        tone("bad");
-        return;
-      }
-      commitBlock(key, block);
-    }
-
-    function getBlockElement(value) {
-      return Array.from(document.querySelectorAll(".block")).find(btn => btn.dataset.value === value);
+      return canFillSlot(key, block);
     }
 
     function commitBlock(key, block) {
@@ -1745,7 +1446,6 @@
       state.selectedBlock = null;
       renderSlots();
       renderBlocks();
-      updateLive();
     }
 
     function markWrong(key) {
@@ -1755,27 +1455,12 @@
       slot.classList.add("wrong");
     }
 
-    function updateLive() {
-      els.live.textContent = displayFormula(state.slots);
-      const value = sigmaValue(state.slots);
-      const complete = Object.values(state.slots).every(Boolean);
-      if (complete && value !== null) {
-        els.proof.innerHTML = `<strong>전개</strong><br>${expansion(state.slots)} = ${value}`;
-      } else if (state.selectedBlock) {
-        els.proof.innerHTML = `<strong>${state.selectedBlock}</strong> 블록을 넣을 슬롯을 선택하세요.`;
-      } else {
-        els.proof.textContent = "상한, 하한, 일반항, 결과가 모두 맞아야 하나의 규칙이 됩니다.";
-      }
-    }
-
     function validate() {
-      const stage = currentStage();
-      return Object.entries(stage.answer).every(([k, v]) => state.slots[k] === v);
+      return isMathSolution(state.slots);
     }
 
     function submit() {
       state.attempts += 1;
-      const stage = currentStage();
       const complete = Object.values(state.slots).every(Boolean);
       if (!complete) {
         state.combo = 0;
@@ -1790,18 +1475,15 @@
         const timeBonus = Math.max(0, 180 - Math.floor((Date.now() - state.startTime) / 1000));
         const gain = 500 + state.combo * 120 + timeBonus;
         state.score += gain;
-        state.completed.add(state.stageIndex);
-        els.feedback.innerHTML = `<strong>정답 +${gain}</strong><br>${stage.proof}`;
+        showToast(`정답 +${gain}점 · ${expansion(state.slots)} = ${sigmaValue(state.slots)}`);
         els.stagePanel.classList.add("celebrate", "pulse");
         setTimeout(() => els.stagePanel.classList.remove("celebrate", "pulse"), 560);
         confetti();
         tone("ok");
         renderHud();
-        renderProgress();
         setTimeout(nextStage, 1250);
       } else {
         state.combo = 0;
-        els.feedback.innerHTML = `<strong>다시 점검</strong><br>각 블록을 k에 실제로 대입해 보세요. ${stage.hint}`;
         els.stagePanel.classList.add("shake");
         setTimeout(() => els.stagePanel.classList.remove("shake"), 330);
         showToast("규칙이 아직 목표와 맞지 않습니다.");
@@ -1822,30 +1504,9 @@
     function resetWorkspace() {
       state.slots = cloneSlots(currentStage().slots);
       state.selectedBlock = null;
-      els.feedback.textContent = "작업판을 초기화했습니다.";
       renderSlots();
       renderBlocks();
-      updateLive();
-    }
-
-    function hint() {
-      els.feedback.innerHTML = `<strong>힌트</strong><br>${currentStage().hint}`;
-      state.score = Math.max(0, state.score - 30);
-      renderHud();
-      tone("hint");
-    }
-
-    function renderProgress() {
-      els.progress.innerHTML = "";
-      stages.forEach((_, i) => {
-        const node = document.createElement("div");
-        node.className = "node";
-        if (state.completed.has(i)) node.classList.add("done");
-        if (i === state.stageIndex) node.classList.add("now");
-        node.textContent = pad(i + 1);
-        els.progress.appendChild(node);
-      });
-      els.progressLabel.textContent = `${Math.round((state.completed.size / stages.length) * 100)}%`;
+      showToast("작업판을 초기화했습니다.");
     }
 
     function selectedDifficulty() {
@@ -1893,9 +1554,7 @@
         startTime: Date.now(),
         selectedBlock: null,
         slots: {},
-        mode: "challenge",
-        sound: state.sound,
-        completed: new Set()
+        sound: state.sound
       };
       clearInterval(timerId);
       els.time.textContent = "00:00";
@@ -1945,18 +1604,6 @@
       requestAnimationFrame(animate);
     }
 
-    window.placeBlock = placeBlock;
-
-    document.querySelectorAll(".mode-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        state.mode = btn.dataset.mode;
-        if (state.mode === "challenge") showToast("챌린지는 같은 스테이지를 시간 보너스 중심으로 플레이합니다.");
-        if (state.mode === "study") showToast("학습 모드에서는 힌트를 자유롭게 써도 흐름을 익히는 것이 목표입니다.");
-      });
-    });
-
     if (els.difficultySelect) {
       els.difficultySelect.addEventListener("change", () => {
         restart();
@@ -1966,7 +1613,6 @@
     els.startBtn.addEventListener("click", startChallenge);
     els.submit.addEventListener("click", submit);
     els.reset.addEventListener("click", resetWorkspace);
-    els.hint.addEventListener("click", hint);
     els.restart.addEventListener("click", () => restart());
     els.retry.addEventListener("click", () => {
       els.modal.classList.remove("show");
@@ -1981,11 +1627,6 @@
       if (state.sound) tone("tap");
       showToast(state.sound ? "소리를 켰습니다." : "소리를 껐습니다.");
     });
-    els.teacherSwitch.addEventListener("click", () => {
-      els.teacherSwitch.classList.toggle("on");
-      els.teacherNotes.classList.toggle("show");
-    });
-
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
     animate();
