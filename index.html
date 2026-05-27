@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIGMA IS YOU - Challenge</title>
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --panel: rgba(255, 255, 255, 0.96);
+      --panel-2: #ffffff;
+      --line: #d8e0ec;
+      --text: #152033;
+      --muted: #5e6b7e;
+      --dim: #8390a3;
+      --pink: #e83f76;
+      --cyan: #067f95;
+      --lime: #258a44;
+      --yellow: #b87200;
+      --violet: #6c54d9;
+      --red: #d63e45;
+      --blue: #236dd9;
+      --orange: #d66b21;
+      --shadow: 0 18px 55px rgba(47, 73, 112, 0.16);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(120deg, rgba(6, 127, 149, 0.11), transparent 34%),
+        linear-gradient(300deg, rgba(232, 63, 118, 0.08), transparent 36%),
+        radial-gradient(circle at 50% 12%, rgba(255, 212, 118, 0.22), transparent 34rem),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", "Noto Sans KR", system-ui, sans-serif;
+      overflow-x: hidden;
+      touch-action: manipulation;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(40,62,94,0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(40,62,94,0.055) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.82), transparent 88%);
+    }
+
+    button, input { font: inherit; }
+
+    button {
+      border: 0;
+      color: inherit;
+      cursor: pointer;
+      transition: transform 120ms ease, border-color 120ms ease, background 120ms ease, opacity 120ms ease;
+    }
+
+    button:active { transform: translateY(1px) scale(0.99); }
+    button:disabled { cursor: not-allowed; opacity: 0.45; }
+    .slot:disabled { opacity: 1; }
+
+    .app {
+      width: min(1180px, calc(100vw - 28px));
+      margin: 0 auto;
+      padding: 18px 0 28px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 0 16px;
+      border-bottom: 1px solid rgba(21, 32, 51, 0.1);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--cyan);
+      color: var(--cyan);
+      background: #ffffff;
+      box-shadow: 0 8px 22px rgba(6, 127, 149, 0.15), inset 0 0 18px rgba(6, 127, 149, 0.06);
+      font-family: Georgia, serif;
+      font-size: 30px;
+      line-height: 1;
+      transform: rotate(-2deg);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 54px);
+      letter-spacing: 0;
+      line-height: 0.95;
+      text-shadow: none;
+    }
+
+    .subtitle {
+      display: none;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .chip, .icon-btn, .mode-btn, .primary-btn, .ghost-btn {
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 34px;
+      padding: 0 10px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .chip strong { color: var(--text); }
+    .difficulty-select {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #ffffff;
+      color: #111827;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 6px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+    }
+
+    .icon-btn:hover, .mode-btn:hover, .ghost-btn:hover {
+      border-color: rgba(21, 32, 51, 0.24);
+      color: var(--text);
+      background: #eef5fb;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+      margin-top: 18px;
+    }
+
+    .stage-panel, .side-panel, .modal-card {
+      background: var(--panel);
+      border: 1px solid rgba(21, 32, 51, 0.1);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      border-radius: var(--radius);
+    }
+
+    .stage-panel {
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .hud {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-bottom: 1px solid rgba(21, 32, 51, 0.1);
+      background: #f1f5fb;
+    }
+
+    .hud-item {
+      padding: 14px 16px;
+      border-right: 1px solid rgba(21, 32, 51, 0.1);
+      min-width: 0;
+    }
+
+    .hud-item:last-child { border-right: 0; }
+
+    .label {
+      color: var(--dim);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .hud-value {
+      margin-top: 3px;
+      font-family: Consolas, "Share Tech Mono", monospace;
+      font-size: 23px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .cyan { color: var(--cyan); }
+    .pink { color: var(--pink); }
+    .yellow { color: var(--yellow); }
+    .lime { color: var(--lime); }
+    .violet { color: var(--violet); }
+    .red { color: var(--red); }
+
+    .stage-body {
+      padding: 14px;
+    }
+
+    .formula-zone {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .board {
+      min-height: 360px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: 24px 18px;
+      overflow: hidden;
+      background:
+        linear-gradient(160deg, rgba(6, 127, 149, 0.08), rgba(232, 63, 118, 0.05)),
+        #fbfdff;
+      border: 2px solid rgba(21, 32, 51, 0.12);
+      border-radius: var(--radius);
+    }
+
+    .board::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px dashed rgba(21, 32, 51, 0.14);
+      pointer-events: none;
+    }
+
+    .formula {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(14px, 2.5vw, 30px);
+      width: 100%;
+    }
+
+    .sigma-stack { display: flex; flex-direction: column; align-items: center; gap: 14px; min-width: 118px; }
+
+    .sigma-symbol {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(102px, 13vw, 150px);
+      color: var(--yellow);
+      line-height: 0.95;
+      text-shadow: none;
+      margin: 0;
+    }
+
+    .slot {
+      display: grid;
+      place-items: center;
+      width: 102px;
+      height: 62px;
+      border: 3px dashed #8b98aa;
+      border-radius: var(--radius);
+      color: #4d5b70;
+      background: #fff4c7;
+      font-weight: 900;
+      font-family: Consolas, monospace;
+      font-size: 18px;
+      user-select: none;
+      box-shadow: 0 8px 18px rgba(47, 73, 112, 0.11);
+    }
+
+    .slot[data-key="term"] { width: 134px; height: 70px; }
+    .slot[data-key="result"] { width: 124px; height: 70px; }
+    .slot.open:hover, .slot.open.active {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: #dff7fb;
+    }
+
+    .slot.filled {
+      border-style: solid;
+      background: #ffffff;
+      color: #111827;
+      border-color: currentColor;
+    }
+
+    .slot.fixed {
+      border-style: solid;
+      color: #111827;
+      border-color: #7a8aa0;
+      background: #f3f7fb;
+    }
+
+    .slot.wrong {
+      animation: bump 260ms ease;
+      border-color: var(--red);
+    }
+
+    .equals {
+      color: var(--pink);
+      font-size: 38px;
+      font-weight: 900;
+    }
+
+    .live-card {
+      display: none;
+      border: 1px solid rgba(21, 32, 51, 0.1);
+      background: #ffffff;
+      border-radius: var(--radius);
+      padding: 14px;
+      min-height: 360px;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .live-expression {
+      min-height: 74px;
+      display: grid;
+      align-content: center;
+      padding: 12px;
+      border: 1px solid rgba(6, 127, 149, 0.2);
+      background: #eefbfc;
+      color: var(--cyan);
+      border-radius: var(--radius);
+      font-family: Consolas, monospace;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .mini-proof {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    .mini-proof strong { color: var(--text); }
+
+    .blocks-wrap {
+      margin-top: 14px;
+      padding: 14px;
+      min-height: 116px;
+      border: 1px solid rgba(21, 32, 51, 0.1);
+      background: #ffffff;
+      border-radius: var(--radius);
+    }
+
+    .blocks-head {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .selected-name {
+      display: none;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .blocks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .block {
+      min-width: 86px;
+      min-height: 58px;
+      padding: 10px 16px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: var(--radius);
+      border: 2px solid #26364d;
+      background: #ffffff;
+      color: #152033;
+      font-family: Consolas, monospace;
+      font-weight: 900;
+      box-shadow: 0 4px 0 rgba(21, 32, 51, 0.16), inset 0 0 14px rgba(255,255,255,0.32);
+      user-select: none;
+      font-size: 20px;
+      touch-action: none;
+      cursor: grab;
+    }
+    .block.dragging {
+      position: fixed !important;
+      z-index: 90;
+      margin: 0 !important;
+      pointer-events: none;
+      box-shadow: 0 18px 36px rgba(47, 73, 112, 0.24);
+      cursor: grabbing;
+    }
+
+    .block.term, .block.result, .block.lower, .block.upper, .block.trap { color: #152033; }
+    .block.selected {
+      outline: 3px solid rgba(21, 32, 51, 0.22);
+      transform: translateY(-2px);
+    }
+    .block.used {
+      opacity: 0.18;
+      pointer-events: none;
+      filter: grayscale(1);
+    }
+
+    .actions {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1.7fr;
+      gap: 10px;
+    }
+
+    .primary-btn, .ghost-btn, .mode-btn {
+      min-height: 44px;
+      padding: 0 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #e63e78, #ff7a59);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .primary-btn:hover { filter: brightness(1.08); }
+
+    .ghost-btn { color: var(--muted); }
+
+    .mode-row {
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .mode-btn.active {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(56, 223, 244, 0.08);
+    }
+
+    .side-panel {
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .side { display: none !important; }
+
+    #hint-btn { display: none; }
+
+    .side-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .side-title h2 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .progress-map {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 7px;
+    }
+
+    .node {
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      border-radius: var(--radius);
+      color: var(--dim);
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .node.done { color: var(--lime); border-color: rgba(158, 247, 95, 0.42); background: rgba(158, 247, 95, 0.08); }
+    .node.now { color: var(--pink); border-color: rgba(255, 79, 139, 0.54); background: rgba(255, 79, 139, 0.08); }
+
+    .lesson-card {
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.2);
+      border-radius: var(--radius);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    .lesson-card + .lesson-card { margin-top: 9px; }
+    .lesson-card strong { color: var(--text); }
+
+    .ranking {
+      display: grid;
+      gap: 7px;
+    }
+
+    .rank-row {
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 9px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      font-size: 12px;
+    }
+
+    .rank-row .name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .rank-row .score { color: var(--yellow); font-family: Consolas, monospace; }
+
+    .teacher-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .switch {
+      width: 48px;
+      height: 26px;
+      padding: 3px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: #090b10;
+    }
+
+    .switch span {
+      display: block;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--dim);
+      transition: transform 150ms ease, background 150ms ease;
+    }
+
+    .switch.on span {
+      transform: translateX(20px);
+      background: var(--lime);
+    }
+
+    .teacher-notes {
+      display: none;
+      margin-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 10px;
+    }
+
+    .teacher-notes.show { display: block; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(18px);
+      max-width: min(620px, calc(100vw - 28px));
+      padding: 12px 14px;
+      border: 1px solid rgba(21, 32, 51, 0.2);
+      background: rgba(255, 255, 255, 0.98);
+      color: #0f172a;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+      z-index: 20;
+      font-size: 14px;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0,0,0,0.72);
+      z-index: 30;
+    }
+
+    .modal.show { display: grid; }
+
+    .modal-card {
+      width: min(520px, 100%);
+      padding: 22px;
+      text-align: center;
+    }
+
+    .modal-card h2 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      color: var(--pink);
+    }
+
+    .modal-card p {
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0 0 16px;
+    }
+
+    .name-input {
+      width: 100%;
+      height: 46px;
+      margin-bottom: 10px;
+      padding: 0 12px;
+      color: var(--text);
+      background: #05070b;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .shake { animation: shake 300ms ease; }
+    .pulse { animation: pulse 650ms ease; }
+    .celebrate { animation: celebrate 520ms ease; }
+
+    #fx {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    @keyframes bump {
+      0%, 100% { transform: translateX(0); }
+      35% { transform: translateX(-7px); }
+      70% { transform: translateX(7px); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(-7px, 3px); }
+      55% { transform: translate(6px, -3px); }
+      80% { transform: translate(-3px, 1px); }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(158, 247, 95, 0.38); }
+      100% { box-shadow: 0 0 0 18px rgba(158, 247, 95, 0); }
+    }
+
+    @keyframes celebrate {
+      0% { transform: scale(1); }
+      45% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .stage-panel { min-height: 0; }
+      .side { display: none !important; }
+      .side-panel { margin-bottom: 0; }
+    }
+
+    @media (max-width: 720px) {
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .brand-mark { width: 38px; height: 38px; font-size: 26px; }
+      h1 { font-size: 30px; }
+      .top-actions { justify-content: flex-start; }
+      .hud { grid-template-columns: repeat(4, 1fr); }
+      .hud-item { padding: 9px 8px; }
+      .hud-value { font-size: 18px; }
+      .hud-item:nth-child(2) { border-right: 1px solid rgba(21, 32, 51, 0.1); }
+      .hud-item:nth-child(1), .hud-item:nth-child(2) { border-bottom: 0; }
+      .formula-zone { grid-template-columns: 1fr; }
+      .formula { gap: 8px; }
+      .stage-body { padding: 10px; }
+      .board { min-height: 245px; padding: 10px; }
+      .sigma-stack { min-width: 86px; gap: 10px; }
+      .sigma-symbol { font-size: 82px; }
+      .slot { width: 78px; height: 50px; font-size: 14px; }
+      .slot[data-key="term"] { width: 92px; height: 56px; }
+      .slot[data-key="result"] { width: 88px; height: 56px; }
+      .equals { font-size: 34px; }
+      .blocks { gap: 9px; }
+      .block { min-width: 0; width: calc((100% - 18px) / 3); padding: 10px 8px; }
+      .actions { grid-template-columns: 1fr; }
+      .side { grid-template-columns: 1fr; }
+      .progress-map { grid-template-columns: repeat(4, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fx"></canvas>
+  <div class="app" id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">∑</div>
+        <div>
+          <h1>SIGMA IS YOU</h1>
+        </div>
+      </div>
+      <div class="top-actions" aria-label="게임 설정">
+        <label class="chip">난이도
+          <select id="difficulty-select" class="difficulty-select" aria-label="난이도 선택">
+            <option value="mixed">랜덤</option>
+            <option value="easy">쉬움</option>
+            <option value="medium">보통</option>
+            <option value="hard">어려움</option>
+          </select>
+        </label>
+        <span class="chip">정확도 <strong id="accuracy-chip">100%</strong></span>
+        <button class="icon-btn" id="sound-btn" type="button" title="소리 켜기/끄기" aria-label="소리 켜기/끄기">♪</button>
+        <button class="icon-btn" id="restart-btn" type="button" title="처음부터" aria-label="처음부터">↺</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="stage-panel" id="stage-panel">
+        <div class="hud">
+          <div class="hud-item">
+            <div class="label">Stage</div>
+            <div class="hud-value cyan" id="stage-badge">01/20</div>
+          </div>
+          <div class="hud-item">
+            <div class="label">Score</div>
+            <div class="hud-value pink" id="score">0</div>
+          </div>
+          <div class="hud-item">
+            <div class="label">Combo</div>
+            <div class="hud-value yellow" id="combo">0</div>
+          </div>
+          <div class="hud-item">
+            <div class="label">Time</div>
+            <div class="hud-value lime" id="time">00:00</div>
+          </div>
+        </div>
+
+        <div class="stage-body">
+          <div class="mode-row" role="tablist" aria-label="학습 모드">
+            <button class="mode-btn active" type="button" data-mode="challenge">챌린지</button>
+            <button class="mode-btn" type="button" data-mode="challenge">챌린지</button>
+            <button class="mode-btn" type="button" data-mode="study">학습</button>
+          </div>
+
+          <div class="formula-zone">
+            <div class="board" aria-label="시그마 수식 조립판">
+              <div class="formula">
+                <div class="sigma-stack">
+                  <button class="slot open" type="button" data-key="upper" onclick="placeBlock('upper')" aria-label="상한 슬롯">upper</button>
+                  <div class="sigma-symbol">∑</div>
+                  <button class="slot open" type="button" data-key="lower" onclick="placeBlock('lower')" aria-label="하한 슬롯">lower</button>
+                </div>
+                <button class="slot open" type="button" data-key="term" onclick="placeBlock('term')" aria-label="일반항 슬롯">term</button>
+                <div class="equals">=</div>
+                <button class="slot open" type="button" data-key="result" onclick="placeBlock('result')" aria-label="결과 슬롯">result</button>
+              </div>
+            </div>
+
+            <aside class="live-card" aria-label="실시간 수학 해설">
+              <div>
+                <div class="label">Live Formula</div>
+                <div class="live-expression" id="live-expression">수식을 완성하세요.</div>
+              </div>
+              <div>
+                <div class="label">Reasoning</div>
+                <div class="mini-proof" id="mini-proof">블록을 선택한 뒤 빈 슬롯을 눌러 수식을 조립합니다.</div>
+              </div>
+              <div>
+                <div class="label">Feedback</div>
+                <div class="mini-proof" id="feedback">정답이면 전개식과 공식을 함께 보여줍니다.</div>
+              </div>
+            </aside>
+          </div>
+
+          <div class="blocks-wrap">
+            <div class="blocks-head">
+              <div class="label">보기</div>
+              <div class="selected-name" id="selected-name">선택된 블록 없음</div>
+            </div>
+            <div class="blocks" id="blocks"></div>
+          </div>
+
+          <div class="actions">
+            <button class="ghost-btn" type="button" id="hint-btn">힌트</button>
+            <button class="ghost-btn" type="button" id="reset-btn">리셋</button>
+            <button class="primary-btn" type="button" id="submit-btn">정답 제출</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side">
+        <section class="side-panel">
+          <div class="side-title">
+            <h2>진도 맵</h2>
+            <span class="label" id="progress-label">0%</span>
+          </div>
+          <div class="progress-map" id="progress-map"></div>
+        </section>
+
+        <section class="side-panel">
+          <div class="side-title">
+            <h2>수학 핵심</h2>
+            <span class="label" id="concept-label">등차합</span>
+          </div>
+          <div class="lesson-card" id="concept-card"></div>
+          <div class="teacher-toggle">
+            <span>교사용 발문 보기</span>
+            <button class="switch" type="button" id="teacher-switch" aria-label="교사용 발문 보기"><span></span></button>
+          </div>
+          <div class="teacher-notes" id="teacher-notes"></div>
+        </section>
+
+        <section class="side-panel">
+          <div class="side-title">
+            <h2>랭킹</h2>
+            <span class="label">LOCAL</span>
+          </div>
+          <div class="ranking" id="ranking"></div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <section class="modal" id="finish-modal" aria-label="완료 화면">
+    <div class="modal-card">
+      <h2>ALL COMPLETED!</h2>
+      <p id="finish-summary">모든 시그마 규칙을 정복했습니다.</p>
+      <input class="name-input" id="player-name" type="text" maxlength="12" placeholder="이름 입력" />
+      <button class="primary-btn" type="button" id="save-score-btn">랭킹 등록</button>
+    </div>
+  </section>
+
+  <script>
+    const termFns = {
+      "1": k => 1,
+      "2": k => 2,
+      "3": k => 3,
+      "4": k => 4,
+      "5": k => 5,
+      "k": k => k,
+      "2k": k => 2 * k,
+      "3k": k => 3 * k,
+      "k²": k => k * k,
+      "k³": k => k * k * k,
+      "k-1": k => k - 1,
+      "2k-1": k => 2 * k - 1
+    };
+
+    function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function pick(arr) { return arr[randInt(0, arr.length - 1)]; }
+    function shuffle(arr) {
+      const out = [...arr];
+      for (let i = out.length - 1; i > 0; i -= 1) {
+        const j = randInt(0, i);
+        [out[i], out[j]] = [out[j], out[i]];
+      }
+      return out;
+    }
+
+    function sigmaSum(lower, upper, term) {
+      let sum = 0;
+      for (let k = lower; k <= upper; k += 1) sum += termFns[term](k);
+      return sum;
+    }
+
+    function sixChoices(correct, distractors) {
+      const set = new Set([String(correct)]);
+      shuffle(distractors.map(String)).forEach(v => { if (set.size < 6) set.add(v); });
+      return shuffle(Array.from(set)).slice(0, 6);
+    }
+
+    function choicePool(required, distractors) {
+      const set = new Set(required.map(String));
+      shuffle(distractors.map(String)).forEach(v => { if (set.size < 6) set.add(v); });
+      return shuffle(Array.from(set)).slice(0, 6);
+    }
+
+    function easyStage() {
+      const mode = pick(["upper_k", "term_const", "result_k"]);
+      if (mode === "upper_k") {
+        const n = randInt(4, 14);
+        const result = sigmaSum(1, n, "k");
+        return {
+          target: result, level: "EASY", concept: "등차합",
+          desc: "상한을 찾아 식을 완성하세요.",
+          slots: { upper: null, lower: "k=1", term: "k", result: String(result) },
+          pool: sixChoices(n, [n - 2, n - 1, n + 1, n + 2, result, result - n]),
+          answer: { upper: String(n) },
+          hint: "1부터 n까지의 합을 떠올려 보세요.",
+          proof: `1부터 ${n}까지의 합은 ${result}입니다.`,
+          teacher: ""
+        };
+      }
+      if (mode === "term_const") {
+        const upper = randInt(6, 12);
+        const c = randInt(2, 5);
+        const result = upper * c;
+        return {
+          target: result, level: "EASY", concept: "상수항",
+          desc: "일반항을 골라 식을 완성하세요.",
+          slots: { upper: String(upper), lower: "k=1", term: null, result: String(result) },
+          pool: choicePool([String(c)], ["1", "2", "3", "4", "5", "k", "2k"]),
+          answer: { term: String(c) },
+          hint: `같은 수를 ${upper}번 더하는 형태입니다.`,
+          proof: `${c}를 ${upper}번 더하면 ${result}입니다.`,
+          teacher: ""
+        };
+      }
+      const n = randInt(5, 14);
+      const result = sigmaSum(1, n, "k");
+      return {
+        target: result, level: "EASY", concept: "자연수합",
+        desc: "결과 값을 채우세요.",
+        slots: { upper: String(n), lower: "k=1", term: "k", result: null },
+        pool: sixChoices(result, [result - n, result + n, n * n, n * (n + 1), result + 1]),
+        answer: { result: String(result) },
+        hint: "직접 더하거나 공식을 써도 됩니다.",
+        proof: `1부터 ${n}까지 합은 ${result}입니다.`,
+        teacher: ""
+      };
+    }
+
+    function mediumStage() {
+      const mode = pick(["result_2k", "term_odd", "double_blank_sq", "lower_shift"]);
+      if (mode === "result_2k") {
+        const n = randInt(5, 10);
+        const result = sigmaSum(1, n, "2k");
+        return {
+          target: result, level: "MEDIUM", concept: "선형항",
+          desc: "결과 값을 채우세요.",
+          slots: { upper: String(n), lower: "k=1", term: "2k", result: null },
+          pool: sixChoices(result, [result / 2, result + 2 * n, n * n, result - 2 * n, result + n]),
+          answer: { result: String(result) },
+          hint: "2를 밖으로 빼서 계산해 보세요.",
+          proof: `∑2k (k=1..${n}) = ${result}입니다.`,
+          teacher: ""
+        };
+      }
+      if (mode === "term_odd") {
+        const n = randInt(5, 10);
+        const result = sigmaSum(1, n, "2k-1");
+        return {
+          target: result, level: "MEDIUM", concept: "홀수합",
+          desc: "일반항을 골라 완성하세요.",
+          slots: { upper: String(n), lower: "k=1", term: null, result: String(result) },
+        pool: choicePool(["2k-1"], ["k", "2k", "k²", "k-1", "3k"]),
+          answer: { term: "2k-1" },
+          hint: "1,3,5,... 형태를 만드는 항을 찾으세요.",
+          proof: `처음 ${n}개 홀수의 합은 ${result}입니다.`,
+          teacher: ""
+        };
+      }
+      if (mode === "lower_shift") {
+        const a = randInt(2, 5);
+        const b = a + randInt(3, 6);
+        const result = sigmaSum(a, b, "k");
+        return {
+          target: result, level: "MEDIUM", concept: "하한 이동",
+          desc: "하한을 채워 식을 완성하세요.",
+          slots: { upper: String(b), lower: null, term: "k", result: String(result) },
+          pool: sixChoices(`k=${a}`, [`k=${a-1}`, `k=${a+1}`, `k=1`, `k=0`, String(result), `k=${b}`]),
+          answer: { lower: `k=${a}` },
+          hint: "합에 들어가는 첫 수를 맞추세요.",
+          proof: `${a}부터 ${b}까지 합은 ${result}입니다.`,
+          teacher: ""
+        };
+      }
+      const n = randInt(4, 8);
+      const result = sigmaSum(1, n, "k²");
+      return {
+        target: result, level: "MEDIUM", concept: "제곱합",
+        desc: "상한과 일반항을 함께 채우세요.",
+        slots: { upper: null, lower: "k=1", term: null, result: String(result) },
+        pool: choicePool([String(n), "k²"], [n - 1, n + 1, "k", "k³", result]),
+        answer: { upper: String(n), term: "k²" },
+        hint: "k²인지 k³인지 구분해 보세요.",
+        proof: `1²부터 ${n}²까지의 합은 ${result}입니다.`,
+        teacher: ""
+      };
+    }
+
+    function hardStage() {
+      const mode = pick(["two_blank_cubic", "three_blank_cubic", "three_blank_square"]);
+      if (mode === "two_blank_cubic") {
+        const n = randInt(3, 6);
+        const result = sigmaSum(1, n, "k³");
+        return {
+          target: result, level: "HARD", concept: "세제곱합",
+          desc: "일반항과 결과를 완성하세요.",
+          slots: { upper: String(n), lower: "k=1", term: null, result: null },
+          pool: choicePool(["k³", String(result)], ["k²", "2k", result + n, result - n, "3k"]),
+          answer: { term: "k³", result: String(result) },
+          hint: "세제곱 항을 먼저 찾으세요.",
+          proof: `1³부터 ${n}³까지 합은 ${result}입니다.`,
+          teacher: ""
+        };
+      }
+      if (mode === "three_blank_square") {
+        const n = randInt(5, 9);
+        const result = sigmaSum(1, n, "k²");
+        return {
+          target: result, level: "HARD", concept: "3칸 조립",
+          desc: "상한, 일반항, 결과를 모두 완성하세요.",
+          slots: { upper: null, lower: "k=1", term: null, result: null },
+          pool: choicePool([String(n), "k²", String(result)], [n - 1, n + 1, "k³", "2k", result + n]),
+          answer: { upper: String(n), term: "k²", result: String(result) },
+          hint: "상한과 일반항을 먼저 맞추면 결과가 보입니다.",
+          proof: `1²부터 ${n}²까지 합은 ${result}입니다.`,
+          teacher: ""
+        };
+      }
+      const n = randInt(4, 7);
+      const result = sigmaSum(1, n, "k³");
+      return {
+        target: result, level: "HARD", concept: "3칸 조립",
+        desc: "상한, 일반항, 결과를 모두 완성하세요.",
+        slots: { upper: null, lower: "k=1", term: null, result: null },
+        pool: choicePool([String(n), "k³", String(result)], [n - 1, n + 1, "k²", "3k", result + n * n]),
+        answer: { upper: String(n), term: "k³", result: String(result) },
+        hint: "k³ 형태와 n을 함께 찾아보세요.",
+        proof: `1³부터 ${n}³까지 합은 ${result}입니다.`,
+        teacher: ""
+      };
+    }
+
+    function generateStageByDifficulty(difficulty) {
+      if (difficulty === "easy") return easyStage();
+      if (difficulty === "medium") return mediumStage();
+      if (difficulty === "hard") return hardStage();
+      return pick([easyStage, mediumStage, hardStage])();
+    }
+
+    function buildSessionStages(difficulty, count = 20) {
+      if (difficulty === "mixed") {
+        const easyCount = Math.ceil(count * 0.35);
+        const mediumCount = Math.ceil(count * 0.35);
+        const hardCount = count - easyCount - mediumCount;
+        return [
+          ...Array.from({ length: easyCount }, () => easyStage()),
+          ...Array.from({ length: mediumCount }, () => mediumStage()),
+          ...Array.from({ length: hardCount }, () => hardStage())
+        ];
+      }
+      const out = [];
+      for (let i = 0; i < count; i += 1) out.push(generateStageByDifficulty(difficulty));
+      return out;
+    }
+
+    let stages = buildSessionStages("mixed", 20);
+
+    const els = {
+      app: document.getElementById("app"),
+      stagePanel: document.getElementById("stage-panel"),
+      stageBadge: document.getElementById("stage-badge"),
+      score: document.getElementById("score"),
+      combo: document.getElementById("combo"),
+      time: document.getElementById("time"),
+      difficultySelect: document.getElementById("difficulty-select"),
+      live: document.getElementById("live-expression"),
+      proof: document.getElementById("mini-proof"),
+      feedback: document.getElementById("feedback"),
+      blocks: document.getElementById("blocks"),
+      selected: document.getElementById("selected-name"),
+      hint: document.getElementById("hint-btn"),
+      reset: document.getElementById("reset-btn"),
+      submit: document.getElementById("submit-btn"),
+      restart: document.getElementById("restart-btn"),
+      sound: document.getElementById("sound-btn"),
+      conceptLabel: document.getElementById("concept-label"),
+      conceptCard: document.getElementById("concept-card"),
+      teacherSwitch: document.getElementById("teacher-switch"),
+      teacherNotes: document.getElementById("teacher-notes"),
+      progress: document.getElementById("progress-map"),
+      progressLabel: document.getElementById("progress-label"),
+      ranking: document.getElementById("ranking"),
+      accuracy: document.getElementById("accuracy-chip"),
+      toast: document.getElementById("toast"),
+      modal: document.getElementById("finish-modal"),
+      summary: document.getElementById("finish-summary"),
+      playerName: document.getElementById("player-name"),
+      saveScore: document.getElementById("save-score-btn"),
+      fx: document.getElementById("fx")
+    };
+
+    let state = {
+      stageIndex: 0,
+      score: 0,
+      combo: 0,
+      attempts: 0,
+      correct: 0,
+      startTime: Date.now(),
+      selectedBlock: null,
+      slots: {},
+      mode: "challenge",
+      sound: true,
+      completed: new Set()
+    };
+
+    let audioCtx = null;
+    let timerId = null;
+    let toastId = null;
+    let dragState = null;
+    const ctx = els.fx.getContext("2d");
+    let particles = [];
+
+    function pad(n) { return String(n).padStart(2, "0"); }
+
+    function resizeCanvas() {
+      els.fx.width = window.innerWidth * devicePixelRatio;
+      els.fx.height = window.innerHeight * devicePixelRatio;
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    }
+
+    function initAudio() {
+      if (!state.sound) return;
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    function tone(kind) {
+      if (!state.sound) return;
+      initAudio();
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      const notes = kind === "ok" ? [523, 659, 784, 1047] : kind === "hint" ? [392, 440] : [160, 90];
+      notes.forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = kind === "bad" ? "sawtooth" : "triangle";
+        osc.frequency.setValueAtTime(freq, now + i * 0.07);
+        gain.gain.setValueAtTime(kind === "bad" ? 0.055 : 0.04, now + i * 0.07);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.22);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + i * 0.07);
+        osc.stop(now + i * 0.07 + 0.24);
+      });
+    }
+
+    function showToast(message) {
+      clearTimeout(toastId);
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      toastId = setTimeout(() => els.toast.classList.remove("show"), 2800);
+    }
+
+    function currentStage() { return stages[state.stageIndex]; }
+
+    function cloneSlots(slots) {
+      return Object.fromEntries(Object.entries(slots).map(([k, v]) => [k, v]));
+    }
+
+    function lowerStart(lower) {
+      if (!lower || !lower.includes("=")) return null;
+      const n = Number(lower.split("=")[1]);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function sigmaValue(slots) {
+      const start = lowerStart(slots.lower);
+      const end = Number(slots.upper);
+      const fn = termFns[slots.term];
+      if (!fn || !Number.isFinite(start) || !Number.isFinite(end) || start > end) return null;
+      let sum = 0;
+      for (let k = start; k <= end; k += 1) sum += fn(k);
+      return sum;
+    }
+
+    function expansion(slots, limit = 7) {
+      const start = lowerStart(slots.lower);
+      const end = Number(slots.upper);
+      const fn = termFns[slots.term];
+      if (!fn || !Number.isFinite(start) || !Number.isFinite(end) || start > end) return "";
+      const values = [];
+      for (let k = start; k <= end && values.length < limit; k += 1) values.push(fn(k));
+      const tail = end - start + 1 > limit ? " + ..." : "";
+      return values.join(" + ") + tail;
+    }
+
+    function displayFormula(slots) {
+      const upper = slots.upper || "?";
+      const lower = slots.lower || "k=?";
+      const term = slots.term || "?";
+      const result = slots.result || "?";
+      return `Σ(${lower} → ${upper}) ${term} = ${result}`;
+    }
+
+    function renderStage() {
+      const stage = currentStage();
+      state.slots = cloneSlots(stage.slots);
+      state.selectedBlock = null;
+      els.stageBadge.textContent = `${pad(state.stageIndex + 1)}/${pad(stages.length)}`;
+      els.conceptLabel.textContent = stage.concept;
+      els.conceptCard.innerHTML = conceptText(stage.concept);
+      els.teacherNotes.innerHTML = `<div class="lesson-card"><strong>발문</strong><br>${stage.teacher}</div>`;
+      renderSlots();
+      renderBlocks();
+      renderProgress();
+      renderHud();
+      updateLive();
+    }
+
+    function conceptText(concept) {
+      const map = {
+        "등차합": "<strong>∑k = n(n+1)/2</strong><br>1부터 n까지 일정하게 1씩 커지는 수의 합입니다.",
+        "상수항": "<strong>∑c = c×항의 개수</strong><br>인덱스 k가 바뀌어도 항이 변하지 않으면 반복 덧셈으로 봅니다.",
+        "제곱합": "<strong>∑k²</strong><br>제곱수의 누적합입니다. 작은 n은 직접 전개, 큰 n은 공식을 씁니다.",
+        "하한 이동": "<strong>k=a부터 시작</strong><br>하한이 1이 아니면 실제로 더하는 첫 항이 달라집니다.",
+        "홀수합": "<strong>∑(2k-1)=n²</strong><br>처음 n개 홀수의 합은 정사각형 수가 됩니다.",
+        "선형항": "<strong>∑ak = a∑k</strong><br>각 항에 같은 수를 곱하면 전체 합에도 같은 수가 곱해집니다.",
+        "인덱스 이동": "<strong>대입 목록 확인</strong><br>k의 시작값과 일반항을 함께 읽어야 실제 항이 보입니다.",
+        "선형 결합": "<strong>합의 선형성</strong><br>상수배와 덧셈은 합 기호 밖에서 구조적으로 다룰 수 있습니다.",
+        "하한과 상한": "<strong>항의 개수</strong><br>상한-하한+1이 더해지는 항의 개수입니다."
+      };
+      return map[concept] || "<strong>합의 기호</strong><br>하한, 상한, 일반항, 결과를 함께 읽습니다.";
+    }
+
+    function renderHud() {
+      els.score.textContent = state.score;
+      els.combo.textContent = state.combo;
+      const acc = state.attempts ? Math.round((state.correct / state.attempts) * 100) : 100;
+      els.accuracy.textContent = `${acc}%`;
+    }
+
+    function slotIsFixed(key) {
+      return currentStage().slots[key] !== null;
+    }
+
+    function renderSlots() {
+      document.querySelectorAll(".slot").forEach(slot => {
+        const key = slot.dataset.key;
+        const value = state.slots[key];
+        slot.className = "slot";
+        slot.classList.add(value ? "filled" : "open");
+        if (slotIsFixed(key)) slot.classList.add("fixed");
+        if (!value) {
+          slot.textContent = "";
+          slot.setAttribute("aria-label", `${slotName(key)} 빈칸`);
+        } else {
+          slot.textContent = value;
+          slot.setAttribute("aria-label", `${slotName(key)} ${value}`);
+        }
+        slot.disabled = slotIsFixed(key);
+      });
+    }
+
+    function slotName(key) {
+      return { upper: "상한", lower: "하한", term: "일반항", result: "결과" }[key] || key;
+    }
+
+    function blockType(text) {
+      if (text.includes("k=")) return "lower";
+      if (termFns[text]) return "term";
+      return "result";
+    }
+
+    function renderBlocks() {
+      const used = new Set(Object.values(state.slots).filter(Boolean));
+      els.blocks.innerHTML = "";
+      currentStage().pool.forEach(text => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `block ${blockType(text)}`;
+        btn.textContent = text;
+        btn.dataset.value = text;
+        if (state.selectedBlock === text) btn.classList.add("selected");
+        if (used.has(text) && !slotIsFixed(valueSlot(text))) btn.classList.add("used");
+        btn.addEventListener("pointerdown", (event) => startBlockDrag(event, text, btn));
+        btn.addEventListener("click", () => {
+          if (btn.dataset.skipClick === "1") {
+            btn.dataset.skipClick = "0";
+          }
+        });
+        els.blocks.appendChild(btn);
+      });
+      els.selected.textContent = state.selectedBlock ? `선택: ${state.selectedBlock}` : "선택된 블록 없음";
+    }
+
+    function valueSlot(text) {
+      return Object.keys(state.slots).find(k => state.slots[k] === text);
+    }
+
+    function selectBlock(text) {
+      initAudio();
+      state.selectedBlock = state.selectedBlock === text ? null : text;
+      renderBlocks();
+      updateLive();
+    }
+
+    function startBlockDrag(event, text, sourceEl) {
+      if (sourceEl.classList.contains("used")) return;
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      event.preventDefault();
+      initAudio();
+      state.selectedBlock = text;
+      sourceEl.classList.add("selected");
+      updateLive();
+
+      const rect = sourceEl.getBoundingClientRect();
+      const placeholder = document.createElement("div");
+      placeholder.style.width = `${rect.width}px`;
+      placeholder.style.height = `${rect.height}px`;
+      placeholder.style.display = "inline-block";
+      placeholder.style.flex = `0 0 ${rect.width}px`;
+      sourceEl.after(placeholder);
+      document.body.appendChild(sourceEl);
+      sourceEl.classList.add("dragging");
+      sourceEl.style.width = `${rect.width}px`;
+      sourceEl.style.height = `${rect.height}px`;
+      sourceEl.style.left = "0";
+      sourceEl.style.top = "0";
+
+      dragState = {
+        pointerId: event.pointerId,
+        value: text,
+        sourceEl,
+        placeholder,
+        dx: rect.width / 2,
+        dy: rect.height / 2,
+        moved: false,
+        activeSlot: null
+      };
+
+      moveDraggedBlock(event.clientX, event.clientY);
+      document.addEventListener("pointermove", onBlockDragMove);
+      document.addEventListener("pointerup", onBlockDragEnd);
+      document.addEventListener("pointercancel", onBlockDragEnd);
+    }
+
+    function moveDraggedBlock(clientX, clientY) {
+      if (!dragState || !dragState.sourceEl) return;
+      dragState.sourceEl.style.transform = `translate3d(${clientX - dragState.dx}px, ${clientY - dragState.dy}px, 0) scale(1.03)`;
+    }
+
+    function slotFromPoint(clientX, clientY) {
+      const el = document.elementFromPoint(clientX, clientY);
+      if (!el) return null;
+      const slot = el.closest(".slot");
+      if (!slot || slot.disabled) return null;
+      return slot;
+    }
+
+    function onBlockDragMove(event) {
+      if (!dragState || event.pointerId !== dragState.pointerId) return;
+      moveDraggedBlock(event.clientX, event.clientY);
+      dragState.moved = true;
+      const slot = slotFromPoint(event.clientX, event.clientY);
+      if (dragState.activeSlot && dragState.activeSlot !== slot) dragState.activeSlot.classList.remove("active");
+      dragState.activeSlot = null;
+      if (!slot) return;
+      const key = slot.dataset.key;
+      if (canPlaceValue(key, dragState.value) && !state.slots[key]) {
+        slot.classList.add("active");
+        dragState.activeSlot = slot;
+      }
+    }
+
+    function onBlockDragEnd(event) {
+      if (!dragState || event.pointerId !== dragState.pointerId) return;
+      const slot = slotFromPoint(event.clientX, event.clientY);
+      if (dragState.activeSlot) dragState.activeSlot.classList.remove("active");
+      if (dragState.moved) dragState.sourceEl.dataset.skipClick = "1";
+
+      const block = dragState.value;
+      if (dragState.placeholder && dragState.placeholder.parentNode) {
+        dragState.placeholder.parentNode.insertBefore(dragState.sourceEl, dragState.placeholder);
+      }
+      dragState.sourceEl.classList.remove("dragging");
+      dragState.sourceEl.classList.remove("selected");
+      dragState.sourceEl.style.width = "";
+      dragState.sourceEl.style.height = "";
+      dragState.sourceEl.style.left = "";
+      dragState.sourceEl.style.top = "";
+      dragState.sourceEl.style.transform = "";
+      if (dragState.placeholder) dragState.placeholder.remove();
+      dragState = null;
+      document.removeEventListener("pointermove", onBlockDragMove);
+      document.removeEventListener("pointerup", onBlockDragEnd);
+      document.removeEventListener("pointercancel", onBlockDragEnd);
+
+      if (!slot) {
+        state.selectedBlock = null;
+        els.selected.textContent = "선택된 블록 없음";
+        updateLive();
+        return;
+      }
+      const key = slot.dataset.key;
+      if (slotIsFixed(key) || state.slots[key]) {
+        state.selectedBlock = null;
+        els.selected.textContent = "선택된 블록 없음";
+        updateLive();
+        return;
+      }
+      if (!canPlaceValue(key, block)) {
+        state.selectedBlock = null;
+        els.selected.textContent = "선택된 블록 없음";
+        markWrong(key);
+        showToast("이 칸에는 이 블록을 놓을 수 없어요.");
+        tone("bad");
+        updateLive();
+        return;
+      }
+      commitBlock(key, block);
+    }
+
+    function canPlaceValue(key, block) {
+      const type = blockType(block);
+      return (
+        key === "lower" ? type === "lower" :
+        key === "upper" ? /^\d+$/.test(block) :
+        key === "result" ? /^\d+$/.test(block) || type === "trap" :
+        key === "term" ? type === "term" || type === "trap" :
+        false
+      );
+    }
+
+    function placeBlock(key, sourceEl) {
+      if (slotIsFixed(key)) return;
+      if (!state.selectedBlock) {
+        showToast("먼저 아래의 규칙 블록을 선택하세요.");
+        return;
+      }
+      const block = state.selectedBlock;
+      if (!canPlaceValue(key, block)) {
+        markWrong(key);
+        showToast("그 블록은 이 슬롯의 문법과 맞지 않습니다.");
+        tone("bad");
+        return;
+      }
+      commitBlock(key, block);
+    }
+
+    function getBlockElement(value) {
+      return Array.from(document.querySelectorAll(".block")).find(btn => btn.dataset.value === value);
+    }
+
+    function commitBlock(key, block) {
+      Object.keys(state.slots).forEach(k => {
+        if (!slotIsFixed(k) && state.slots[k] === block) state.slots[k] = null;
+      });
+      state.slots[key] = block;
+      state.selectedBlock = null;
+      renderSlots();
+      renderBlocks();
+      updateLive();
+    }
+
+    function markWrong(key) {
+      const slot = document.querySelector(`.slot[data-key="${key}"]`);
+      slot.classList.remove("wrong");
+      void slot.offsetWidth;
+      slot.classList.add("wrong");
+    }
+
+    function updateLive() {
+      els.live.textContent = displayFormula(state.slots);
+      const value = sigmaValue(state.slots);
+      const complete = Object.values(state.slots).every(Boolean);
+      if (complete && value !== null) {
+        els.proof.innerHTML = `<strong>전개</strong><br>${expansion(state.slots)} = ${value}`;
+      } else if (state.selectedBlock) {
+        els.proof.innerHTML = `<strong>${state.selectedBlock}</strong> 블록을 넣을 슬롯을 선택하세요.`;
+      } else {
+        els.proof.textContent = "상한, 하한, 일반항, 결과가 모두 맞아야 하나의 규칙이 됩니다.";
+      }
+    }
+
+    function validate() {
+      const stage = currentStage();
+      return Object.entries(stage.answer).every(([k, v]) => state.slots[k] === v);
+    }
+
+    function submit() {
+      state.attempts += 1;
+      const stage = currentStage();
+      const complete = Object.values(state.slots).every(Boolean);
+      if (!complete) {
+        state.combo = 0;
+        renderHud();
+        showToast("아직 비어 있는 슬롯이 있습니다.");
+        tone("bad");
+        return;
+      }
+      if (validate()) {
+        state.correct += 1;
+        state.combo += 1;
+        const timeBonus = Math.max(0, 180 - Math.floor((Date.now() - state.startTime) / 1000));
+        const gain = 500 + state.combo * 120 + timeBonus;
+        state.score += gain;
+        state.completed.add(state.stageIndex);
+        els.feedback.innerHTML = `<strong>정답 +${gain}</strong><br>${stage.proof}`;
+        els.stagePanel.classList.add("celebrate", "pulse");
+        setTimeout(() => els.stagePanel.classList.remove("celebrate", "pulse"), 560);
+        confetti();
+        tone("ok");
+        renderHud();
+        renderProgress();
+        setTimeout(nextStage, 1250);
+      } else {
+        state.combo = 0;
+        els.feedback.innerHTML = `<strong>다시 점검</strong><br>각 블록을 k에 실제로 대입해 보세요. ${stage.hint}`;
+        els.stagePanel.classList.add("shake");
+        setTimeout(() => els.stagePanel.classList.remove("shake"), 330);
+        showToast("규칙이 아직 목표와 맞지 않습니다.");
+        tone("bad");
+        renderHud();
+      }
+    }
+
+    function nextStage() {
+      if (state.stageIndex >= stages.length - 1) {
+        finish();
+        return;
+      }
+      state.stageIndex += 1;
+      renderStage();
+    }
+
+    function resetWorkspace() {
+      state.slots = cloneSlots(currentStage().slots);
+      state.selectedBlock = null;
+      els.feedback.textContent = "작업판을 초기화했습니다.";
+      renderSlots();
+      renderBlocks();
+      updateLive();
+    }
+
+    function hint() {
+      els.feedback.innerHTML = `<strong>힌트</strong><br>${currentStage().hint}`;
+      state.score = Math.max(0, state.score - 30);
+      renderHud();
+      tone("hint");
+    }
+
+    function renderProgress() {
+      els.progress.innerHTML = "";
+      stages.forEach((_, i) => {
+        const node = document.createElement("div");
+        node.className = "node";
+        if (state.completed.has(i)) node.classList.add("done");
+        if (i === state.stageIndex) node.classList.add("now");
+        node.textContent = pad(i + 1);
+        els.progress.appendChild(node);
+      });
+      els.progressLabel.textContent = `${Math.round((state.completed.size / stages.length) * 100)}%`;
+    }
+
+    function renderRanking() {
+      const rows = getRanking();
+      els.ranking.innerHTML = "";
+      if (!rows.length) {
+        els.ranking.innerHTML = `<div class="lesson-card">아직 기록이 없습니다. 첫 완주 기록을 남겨보세요.</div>`;
+        return;
+      }
+      rows.slice(0, 6).forEach((row, i) => {
+        const item = document.createElement("div");
+        item.className = "rank-row";
+        item.innerHTML = `<strong>${i + 1}</strong><span class="name">${escapeHtml(row.name)}</span><span class="score">${row.score}</span>`;
+        els.ranking.appendChild(item);
+      });
+    }
+
+    function getRanking() {
+      try { return JSON.parse(localStorage.getItem("sigma-is-you-ranking") || "[]"); }
+      catch { return []; }
+    }
+
+    function saveRanking() {
+      const name = els.playerName.value.trim() || "PLAYER";
+      const rows = getRanking();
+      rows.push({ name, score: state.score, date: new Date().toISOString() });
+      rows.sort((a, b) => b.score - a.score);
+      localStorage.setItem("sigma-is-you-ranking", JSON.stringify(rows.slice(0, 10)));
+      els.modal.classList.remove("show");
+      renderRanking();
+      showToast("랭킹에 등록되었습니다.");
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+    }
+
+    function finish() {
+      clearInterval(timerId);
+      const seconds = Math.floor((Date.now() - state.startTime) / 1000);
+      els.summary.textContent = `최종 점수 ${state.score}점, 소요 시간 ${Math.floor(seconds / 60)}분 ${seconds % 60}초입니다.`;
+      els.modal.classList.add("show");
+      confetti(90);
+    }
+
+    function restart() {
+      const difficulty = els.difficultySelect ? els.difficultySelect.value : "mixed";
+      stages = buildSessionStages(difficulty, 20);
+      state = {
+        stageIndex: 0,
+        score: 0,
+        combo: 0,
+        attempts: 0,
+        correct: 0,
+        startTime: Date.now(),
+        selectedBlock: null,
+        slots: {},
+        mode: "challenge",
+        sound: state.sound,
+        completed: new Set()
+      };
+      clearInterval(timerId);
+      startTimer();
+      renderStage();
+      showToast("새 게임을 시작했습니다.");
+    }
+
+    function startTimer() {
+      timerId = setInterval(() => {
+        const seconds = Math.floor((Date.now() - state.startTime) / 1000);
+        els.time.textContent = `${pad(Math.floor(seconds / 60))}:${pad(seconds % 60)}`;
+      }, 500);
+    }
+
+    function confetti(count = 42) {
+      for (let i = 0; i < count; i += 1) {
+        particles.push({
+          x: Math.random() * window.innerWidth,
+          y: -10 - Math.random() * 40,
+          vx: Math.random() * 4 - 2,
+          vy: Math.random() * 3 + 2,
+          size: Math.random() * 7 + 4,
+          life: 90 + Math.random() * 40,
+          color: [ "#38dff4", "#ff4f8b", "#ffd166", "#9ef75f", "#a888ff", "#ff9b54" ][Math.floor(Math.random() * 6)]
+        });
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      particles = particles.filter(p => p.life > 0);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.035;
+        p.life -= 1;
+        ctx.globalAlpha = Math.max(0, Math.min(1, p.life / 60));
+        ctx.fillStyle = p.color;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.life * 0.08);
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        ctx.restore();
+      });
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(animate);
+    }
+
+    window.placeBlock = placeBlock;
+
+    document.querySelectorAll(".mode-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        state.mode = btn.dataset.mode;
+        if (state.mode === "challenge") showToast("챌린지는 같은 스테이지를 시간 보너스 중심으로 플레이합니다.");
+        if (state.mode === "study") showToast("학습 모드에서는 힌트를 자유롭게 써도 흐름을 익히는 것이 목표입니다.");
+      });
+    });
+
+    if (els.difficultySelect) {
+      els.difficultySelect.addEventListener("change", () => {
+        restart();
+      });
+    }
+
+    els.submit.addEventListener("click", submit);
+    els.reset.addEventListener("click", resetWorkspace);
+    els.hint.addEventListener("click", hint);
+    els.restart.addEventListener("click", restart);
+    els.saveScore.addEventListener("click", saveRanking);
+    els.sound.addEventListener("click", () => {
+      state.sound = !state.sound;
+      els.sound.textContent = state.sound ? "♪" : "×";
+      showToast(state.sound ? "소리를 켰습니다." : "소리를 껐습니다.");
+    });
+    els.teacherSwitch.addEventListener("click", () => {
+      els.teacherSwitch.classList.toggle("on");
+      els.teacherNotes.classList.toggle("show");
+    });
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+    animate();
+    startTimer();
+    renderStage();
+    renderRanking();
+  </script>
+</body>
+</html>
